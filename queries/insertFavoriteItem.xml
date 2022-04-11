@@ -1,0 +1,10 @@
+<query id="insertFavoriteItem" action="insert">
+	<tables>
+		<table name="svcart_favorites" />
+	</tables>
+	<columns>
+		<column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+		<column name="item_srl" var="item_srl" filter="number" notnull="notnull" />
+		<column name="regdate" var="regdate" default="curdate()" />
+	</columns>
+</query>

@@ -1,0 +1,19 @@
+<query id="insertCartItem" action="insert">
+	<tables>
+		<table name="svcart" />
+	</tables>
+	<columns>
+		<column name="cart_srl" var="cart_srl" filter="number" notnull="notnull" />
+		<column name="item_srl" var="item_srl" notnull="notnull" />
+		<column name="member_srl" var="member_srl" notnull="notnull" />
+		<column name="module_srl" var="module_srl" notnull="notnull" />
+		<column name="quantity" var="quantity" notnull="notnull" />
+		<column name="option_srl" var="option_srl" default="0" />
+		<column name="option_price" var="option_price" default="0" />
+		<column name="option_title" var="option_title" default="" />
+		<column name="conditional_promotion" var="conditional_promotion" default="" />
+		<column name="bundling_order_info" var="bundling_order_info" default="" />
+		<column name="regdate" var="regdate" default="curdate()" />
+		<column name="non_key" var="non_key" />
+	</columns>
+</query>

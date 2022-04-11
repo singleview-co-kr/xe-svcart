@@ -1,0 +1,14 @@
+<script cond="!Mobile::isMobileCheckByAgent()" type="text/javascript" src="//{$npay_test_server}pay.naver.com/customer/js/naverPayButton.js" charset="UTF-8"></script>
+<script cond="Mobile::isMobileCheckByAgent()" type="text/javascript" src="//{$npay_test_server}pay.naver.com/customer/js/mobile/naverPayButton.js" charset="UTF-8"></script>
+<script type="text/javascript" >//<![CDATA[
+function onClickNaverpayWish(url) {
+	// 네이버페이로 찜 정보를 등록하는 가맹점 페이지 팝업 창 생성.
+	// 해당 페이지에서 찜 정보 등록 후 네이버페이 찜 페이지로 이동.
+	window.open(url,'','scrollbars=yes,width=400,height=267');
+	return false;
+}
+function not_buy_nc() {
+	alert('죄송합니다. 네이버페이로 구매가 불가한 상품입니다.');
+	return false;
+}
+//]]></script>

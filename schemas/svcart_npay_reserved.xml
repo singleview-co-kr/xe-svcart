@@ -1,0 +1,15 @@
+<table name="svcart_npay_reserved">
+	<column name="npay_order_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+	<column name="member_srl" type="number" size="11" default="0" notnull="notnull" index="idx_member_srl" />
+	<column name="order_status" type="char" size="1" default="0" notnull="notnull" index="idx_order_status" />
+	<column name="cartnos" type="varchar" size="1024" notnull="notnull" />
+	<column name="deliv_fee" type="number" size="11" default="0" notnull="notnull" />
+	<column name="ttl_price" type="number" size="11" default="0" notnull="notnull" />
+	<column name="utm_source" type="varchar" size="30" />
+	<column name="utm_medium" type="varchar" size="15" />
+	<column name="utm_campaign" type="varchar" size="90" />
+	<column name="utm_term" type="varchar" size="25" />
+	<column name="http_user_agent" type="varchar" size="200" notnull="notnull" />
+	<column name="is_mobile_access" type="char" size="1" default="0" notnull="notnull" />
+	<column name="regdate" type="date" notnull="notnull" />
+</table>

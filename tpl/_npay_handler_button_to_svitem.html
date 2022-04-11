@@ -1,0 +1,18 @@
+<script type="text/javascript" >//<![CDATA[
+naver.NaverPayButton.apply({
+	BUTTON_KEY:"{$npay_btn_key}", // 네이버페이에서할당받은 버튼KEY 를 입력하세요.
+<block cond="!Mobile::isMobileCheckByAgent()">
+	TYPE: "A", // 템플릿을 확인하시고 원하는 타입의 버튼을 선택 - PC
+</block>
+<block cond="Mobile::isMobileCheckByAgent()">
+	TYPE: "MA", // 템플릿을 확인하시고 원하는 타입의 버튼을 선택 - MOB
+</block>
+	COLOR: 1, // 버튼의 색 설정
+	COUNT: {$npay_btn_cnt}, // 버튼 개수 설정. 구매하기 버튼(장바구니 페이지)만 있으면 1, 찜하기 버튼(상품 상세 페이지)과 함께 있으면 2 를 입력한다.
+	ENABLE: "{$npay_btn_enable}", // 품절등과 같은 이유에 따라 버튼을 비활성화할 필요가 있을 경우
+	BUY_BUTTON_HANDLER: onClickNaverpayBuy, // 구매하기 버튼 이벤트 Handler 함수 등록, 품절인 경우 not_buy_nc 함수 사용
+	//BUY_BUTTON_LINK_URL:"", // 링크 주소 (필요한 경우만 사용)
+	WISHLIST_BUTTON_HANDLER: wishlist_nc, // 찜하기 버튼 이벤트 Handler 함수 등록 wishlist_nc 명칭만 인식함
+	WISHLIST_BUTTON_LINK_URL:"/index.php?mid={$svcart_mid}&act=dispSvcartNpayFavorite&item_srl={$item_srl}", // 찜하기 팝업 링크 주소
+	"":""});
+//]]></script>

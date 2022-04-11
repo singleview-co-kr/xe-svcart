@@ -1,0 +1,338 @@
+<SCRIPT>
+var quantity_break_classes = [];
+var oCartItem = [];
+</SCRIPT>
+
+<div class="full-wrap">
+	<div class="container row cart-page showcase-item">
+		<div class="sc-hd">
+			<h2>나의 <strong>장바구니</strong></h2>
+		</div>
+<!--@if( count($list) )-->
+		<p class="subtit cartmob">총 <span></span>개의 제품</p>
+		<form action="#" method="post" id="cart_form">
+			<div class="large-3 columns cart_checkout_wrap show-for-max-medium" style="margin: 28px 0 15px;padding-bottom: 0;">
+				<p><input type="button" onclick="progressOrderItems('{$login_chk}'); return false;" class="action_button" id="checkout" name="checkout" value="{$lang->cmd_order}" /></p>
+			</div>
+			<div class="cart-content">
+				<div class="checkout_table_header row">    
+					<div class="large-2 columns"><p class="titletable"> </p></div>     
+					<div class="large-2 columns"><p class="titletable">{$lang->item}</p></div>    
+					<div class="large-2 columns"><p class="titletable">{$lang->sales_price}</p></div>
+					<div class="large-2 columns"><p class="titletable">할인</p></div>
+					<div class="large-1 columns"><p class="titletable">{$lang->quantity}</p></div>
+					<div class="large-2 columns"><p class="titletable">품목합계</p></div>
+					<div class="large-1 columns"><p class="titletable">{$lang->cmd_order_remove}</p></div>
+					<div class="clear"></div>
+				</div>
+				<ul class="cart-product-list">
+					<li class="row cart-product-item" cond="count($list)" loop="$list=>$no,$val">
+<SCRIPT>
+oCartItem.push({ nCartSrl: {$val->cart_srl}, nPrice: {$val->price}, nDiscount: {$val->sum_discount_amount}, nQty: {$val->quantity} });
+</SCRIPT>
+						<div class="large-2 columns product_row">
+							<a href="{getUrl('','document_srl',$val->document_srl)}" title="{$val->item_name}">
+							<img src="{$val->getThumbnail(160,160,$module_info->thumbnail_type)}"  alt="{$val->item_name}" />
+							</a>
+						</div>
+						<!--div class="twelve columns info_text_cart omega"-->
+							<input type="hidden" name="cart" value="{$val->cart_srl}"/>
+							<div class="large-2 columns title_column">
+								<p class="name_product_cart">
+								<a style="color: #212121" href="{getUrl('','document_srl',$val->document_srl)}" title="{$val->item_name}"><span class="up">{$val->item_name}</span><br/>
+								<span class="cart-variants cap"></span>
+								<span class="cart-variants cap"></span>
+								<span class="cart-variants cap"></span> 
+								</a>
+								</p> 
+							</div>
+							<div class="large-2 columns single_price_col">
+								<p class="price_total">
+								{$val->printPrice()}
+								</p>
+							</div>
+							<div class="large-2 columns single_price_col">
+								<p class="price_total">{number_format($val->sum_discount_amount)}</p>
+								<span class="cart-variants cap">{$val->discount_info}</span>
+							</div>
+							<div class="large-1 columns mobile_center" id="quantity_1">
+								<input type="number" data-cartid="{$val->cart_srl}" min="1" size="2" class="quantity " name="updates[]" id="" value="{$val->quantity}"/>
+							</div>
+							<div class="large-2 columns omega line_price_col mobile_right">
+								<p data-cartid="{$val->cart_srl}" class="price_total price_line_total">{number_format($val->sum_discounted_price)}</p>
+							</div>
+							<div class="large-1 columns omega remove_column">
+								<a data-cartid="{$val->cart_srl}" class="remove-btn" title="Remove Item">Remove</a>
+							</div>
+						<!--/div--> 
+					</li>
+				</ul>
+				<div class="subtotal-section">
+					<div class="row">
+						<div class="large-4  columns total-desc">
+							<div>
+								<p class="subtotal-title">총액</p>
+								<p class="subtotal-desc"></p>
+							</div>
+						</div>
+						<div class="large-2 omega columns">
+							<p class="original-price">{number_format($sum_price)}</p>
+						</div>
+						<div class="large-2 omega columns">
+							<p class="discount-amnt">- {number_format($total_discount_amount)}</p>
+						</div>
+						<div class="large-1 omega columns">
+							<p class="delivery-fee">+ {number_format($delivery_fee)}</p>
+							<span class="cart-variants cap">(배송료)</span>
+						</div>
+						<div class="large-3 omega columns">
+							<p class="subtotal-price"> {number_format($total_price)}</p>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+			<div class="cart-notice row">
+				<!--p>COUPON CODE: Once you're done shopping and are ready to checkout, enter all of your contact and shipping information before applying your coupon code.</p--->
+			</div>
+			<div class="row cart-action-panel">
+				<div class="large-3 columns hide-for-max-medium">
+					<p></p>
+				</div>
+				<div class="large-3 columns">
+					<!--p id ="cart_paypal"><input type="image"  name="goto_pp" value="paypal_express" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckoutsm.gif" /></p--->
+				</div>
+				<div class="large-3 columns store_continue_wrap">
+					<p><a class="store_continue_button" href="/">쇼핑 계속하기</a></p>
+				</div>
+				<div class="large-3 columns cart_checkout_wrap">
+					<p>
+					<input type="button" onclick="progressOrderItems('{$login_chk}'); return false;" class="action_button" id="checkout" name="checkout" value="{$lang->cmd_order}" />
+					</p>
+				</div>
+			</div>
+		</form>
+<!--@else-->
+		<div class="large-12 columns">
+			<div class="section clearfix" style="margin: 40px 0 60px;">
+				<p class="quote" >{$lang->msg_no_items}<a href="/"> {$lang->msg_keep_shopping} &rarr;</a></p>    
+			</div>
+		</div>
+<!--@end-->
+	</div><!-- container ]]-->
+</div><!-- full-wrap ]]-->
+
+<script>
+
+/**
+ * make array to a string delimited with comma.
+ */
+function makeList() 
+{
+	var list = new Array();
+	jQuery('input[name=cart]').each(function(idx, elem) {
+		list[list.length] = jQuery(elem).val();
+	});
+	return list;
+}
+
+function progressOrderItems( login_chk )
+{
+	var cartnos = makeList();
+	if( !cartnos.length )
+		return;
+
+	//if( login_chk == "Y" )
+		location.href = current_url.setQuery('act','dispSvcartOrderItems').setQuery('cartnos',cartnos);
+	//else
+	//	location.href = current_url.setQuery('act','dispSvcartLogin').setQuery('cartnos',cartnos);
+}
+
+$(document).ready(function(){
+	var nTotalQty = 0;
+	for( var i in oCartItem )
+	{
+		nTotalQty += oCartItem[i].nQty;
+	}
+//console.log( oCartItem );
+
+	$('.cartmob span').html( nTotalQty );
+    $('#cartTopButton a').addClass('active');
+	$('#storeButton a').removeClass('active');
+
+	$('.remove-btn').click(function(){
+		var self = $(this),
+		p = self.parents('.cart-product-item'),
+		qty = p.find('.quantity').val();
+
+		var cart_srls = new Array();
+		cart_srls[cart_srls.length] = self.data('cartid');
+
+		var params = new Array();
+		params['cart_srls'] = cart_srls.join(',');
+		//var responses = ['error','message'];
+		
+		exec_xml('svcart', 'procSvcartDeleteCart', params, function(data){
+			var nCartSrl = params['cart_srls'];
+			var nIdxRemove = 0;
+			var nSubTotalPrice = 0;
+			var nDiscAmnt = 0;
+			var nOriginalPrice = 0;
+			for( var i in oCartItem )
+			{
+				if( nCartSrl == oCartItem[i].nCartSrl )
+					nIdxRemove = i;
+				else
+				{
+					nOriginalPrice += oCartItem[i].nPrice * oCartItem[i].nQty;
+					nDiscAmnt += oCartItem[i].nDiscount * oCartItem[i].nQty;
+					nSubTotalPrice += ( oCartItem[i].nPrice - oCartItem[i].nDiscount ) * oCartItem[i].nQty;
+				}
+			}
+
+			oCartItem.splice(nIdxRemove, 1);
+			data.total_price = nSubTotalPrice;
+			
+			p.slideUp('easing',function(){
+				p.remove();
+				bigone = gobreak();
+				if( bigone )
+					bigone.change();
+			});
+			var nResultantQty = parseInt($('.cartnav span').text()) - qty;
+			$('.cartnav span,.cartmob span').html( nResultantQty );
+			$('.original-price').html( formatNumber( nOriginalPrice ) + '원');
+			$('.discount-amnt').html( '-' + formatNumber( nDiscAmnt ) + '원');
+			$('.subtotal-price').html( formatNumber( nSubTotalPrice ) + '원');
+
+			if( nResultantQty == 0 )
+				$('.settlement_link').prop('href', './my_cart' );
+			else
+				$('.settlement_link').prop('href', './?vid=buynow&mid=my_cart&act=dispSvcartOrderItems' );
+		}/*, responses*/);
+
+		return false;
+	});
+
+    //quantity break
+    function gobreak(){
+	    for(k in quantity_break_classes)
+		{
+			var count = 0,
+				max_count = 0,
+				bigone = false,
+				num = $('.'+k).length;
+	    	$('.'+k).each(function(){
+	    		var self = $(this),
+	    			tmp = parseInt($(this).val());
+	    		count += tmp;
+	    		if(tmp>max_count){
+	    			max_count = tmp;
+	    			bigone = self;
+	    		}
+	    	});
+	    	if(bigone)
+			{
+		    	if(count>quantity_break_classes[k])
+				{
+		    		$('.'+k).each(function(){
+			    		var self = $(this);
+			    		self.attr('min',1).val(1);
+			    	});
+			    	bigone.attr('min',quantity_break_classes[k]-num+1).val(quantity_break_classes[k]-num+1);
+		    	}
+		    	if(count<quantity_break_classes[k])
+				{
+			    	bigone.val(parseInt(bigone.val())+parseInt(quantity_break_classes[k]-count));
+			    	bigone.attr('min',bigone.val());
+		    	}
+	    	}
+	    }
+	    return bigone;
+    }
+    var bigone = gobreak();
+
+    //ajax cart
+    var quantity_before_change = 0;
+    $('.quantity').mousedown(function(){
+    	quantity_before_change = $(this).val();
+console.log( 'quantity_before_change:' + quantity_before_change );
+    });
+
+    $('.quantity').off('change').change(function(){
+    	var self = $(this),
+    		p = self.parents('.cart-product-item'),
+    		qty = self.val()<=0?1:self.val(),
+    		cart_count_change = qty - quantity_before_change;
+//console.log( self.data('cartid') );
+			var target = self.data('cartid');
+
+//console.log( 'cart_count_change:' + qty );
+			var params = new Array();
+			params['cart_srl'] = self.data('cartid');//target.replace(/[^0-9]/g,'');
+			params['quantity'] = qty;
+			var responses = ['error','message'];
+			exec_xml('svcart', 'procSvcartUpdateQuantity', params, function(data){
+			
+			var nCartSrl = params['cart_srl'];
+			var nSubTotalPrice = 0;
+			var nDiscAmnt = 0;
+			var nAdjLineTotalPrice = 0;
+			var nOriginalPrice = 0;
+			for( var i in oCartItem )
+			{
+				if( nCartSrl == oCartItem[i].nCartSrl )
+				{
+					oCartItem[i].nQty = qty;
+					nAdjLineTotalPrice = ( oCartItem[i].nPrice - oCartItem[i].nDiscount ) * oCartItem[i].nQty;
+
+				}
+
+				nOriginalPrice += oCartItem[i].nPrice * oCartItem[i].nQty;
+				nDiscAmnt += oCartItem[i].nDiscount * oCartItem[i].nQty;
+				nSubTotalPrice += ( oCartItem[i].nPrice - oCartItem[i].nDiscount ) * oCartItem[i].nQty;
+			}
+
+			data.total_price = nSubTotalPrice;
+			
+			$('.cartnav span,.cartmob span').html(parseInt($('.cartnav span').text())-qty);
+			$('.original-price').html( formatNumber( nOriginalPrice ) + '원');
+			$('.discount-amnt').html( '-' + formatNumber( nDiscAmnt ) + '원');
+			$('.subtotal-price').html( formatNumber( nSubTotalPrice ) + '원');
+
+			$('.price_line_total').each(function(){
+				var self = $(this);
+				if( self.data('cartid') == nCartSrl )
+					self.html( formatNumber( nAdjLineTotalPrice ) + '원');
+				console.log( self.data('cartid') );
+			});
+		
+		}/*, responses*/);
+
+	    for(k in quantity_break_classes){
+			var count = 0,
+				max_count = 0,
+				bigone = {},
+				num = $('.'+k).length;
+	    	$('.'+k).each(function(){
+	    		var self = $(this),
+	    			tmp = parseInt($(this).val());
+	    		count += tmp;
+	    		if(tmp>max_count){
+	    			max_count = tmp;
+	    			bigone = self;
+	    		}
+	    	});
+	    	if(count<quantity_break_classes[k]){
+		    	bigone.val(parseInt(bigone.val())+parseInt(quantity_break_classes[k]-count));
+		    	bigone.attr('min',bigone.val());
+	    	}
+	    }
+    	return false;
+    });
+});
+
+$(window).load(function(){
+	$(".loading_screen").fadeOut();
+});
+</script>

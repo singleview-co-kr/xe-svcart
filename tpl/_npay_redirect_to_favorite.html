@@ -1,0 +1,70 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$( function() {
+	$( "#progressbar" ).progressbar({
+		value: false
+	});
+	$( "button" ).on( "click", function( event ) {
+		var target = $( event.target ),
+		progressbar = $( "#progressbar" ),
+		progressbarValue = progressbar.find( ".ui-progressbar-value" );
+
+		if ( target.is( "#numButton" ) ) {
+			progressbar.progressbar( "option", {
+			value: Math.floor( Math.random() * 100 )
+			});
+		}
+		else if ( target.is( "#colorButton" ) ) {
+			progressbarValue.css({
+			"background": '#' + Math.floor( Math.random() * 16777215 ).toString( 16 )
+			});
+		}
+		else if ( target.is( "#falseButton" ) ) {
+			progressbar.progressbar( "option", "value", false );
+		}
+	});
+} );
+</script>
+<style>
+#progressbar .ui-progressbar-value {
+background-color: #ccc;
+}
+</style>
+
+<form name='frm' method='get' action='{$sWishlistUrl}'>
+<input type='hidden' name='SHOP_ID' value='{$sShopId}'>
+
+<block loop="$aItemIds=>$key,$val">
+<input type='hidden' name='ITEM_ID' value='{$val}'>
+</block>
+
+<CENTER><font size='4'>네이버페이로 이동 중입니다.</CENTER>
+<div id="progressbar"></div>
+
+<script>
+/////////////////////////
+function _enforceInt( nEventValue )
+{
+	nEventValue = nEventValue.toString().replace( /$|,/g,'' );
+	if( isNaN( nEventValue ) )
+		return 0;
+	else
+		return nEventValue;
+}
+nEventValue = _enforceInt( '{$nTotalPrice}' );
+ga('send', 'event', {
+	'eventCategory': 'button',   // Required.
+	'eventAction': 'clicked',      // Required.
+	'eventLabel': 'npf_',
+	'eventValue': nEventValue, // use number only, null string '' commits error.
+	'nonInteraction': 1 // true indicates that the event hit will not be used in bounce-rate calculation.
+});
+/////////////////////////
+setTimeout(function() {
+	document.frm.target = '_top';
+	document.frm.submit();
+}, 100);
+</script>

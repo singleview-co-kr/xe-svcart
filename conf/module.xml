@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+	<grants>
+		<grant name="display_npay_btn" default="guest">
+			<title xml:lang="ko">Npay 표시</title>
+		</grant>
+	</grants>
+	<permissions>
+	</permissions>
+	<actions>
+		<action name="dispSvcartAdminConfig" type="view" />
+		<action name="dispSvcartAdminNpayConfig" type="view" />
+		<action name="dispSvcartAdminModInstList" type="view" admin_index="false" />
+		<action name="dispSvcartAdminInsertModInst" type="view" />
+		<action name="dispSvcartAdminAdditionSetup" type="view" />
+		<action name="dispSvcartAdminSkinInfo" type="view" />
+		<action name="dispSvcartAdminMobileSkinInfo" type="view" />
+		<action name="dispSvcartAdminCartManagement" type="view" />
+		<action name="dispSvcartAdminCartDetail" type="view" />
+		<action name="dispSvcartAdminGrantInfo" type="view" />
+
+		<action name="procSvcartAdminConfig" type="controller" />
+		<action name="procSvcartAdminNpayConfig" type="controller" />
+		<action name="procSvcartAdminNpayConfig" type="controller" />
+		<action name="procSvcartAdminInsertModInst" type="controller" />
+		<action name="procSvcartAdminDeleteModInst" type="controller" />
+
+		<action name="getSvcartAdminDeleteModInst" type="model" />
+		<action name="getSvcartAdminFieldInfo" type="model" />
+
+		<action name="dispSvcartCartItems" type="view" index="true" />
+		<action name="dispSvcartNpayBuy" type="view" />
+		<action name="dispSvcartNpayFavorite" type="view" />
+		<action name="dispSvcartFavoriteItems" type="view" />
+		<action name="dispSvcartOrderList" type="view" />
+		<action name="dispSvcartLogin" type="view" />
+
+		<action name="procSvcartDeleteCart" type="controller" />
+		<action name="procSvcartDeleteFavoriteItems" type="controller" />
+		<action name="procSvcartUpdateQuantity" type="controller" />
+		<action name="procSvcartInsertOrder" type="controller" />
+
+		<action name="getSvcartCartItems" type="model" />
+		<action name="getSvcartFavoriteItems" type="model" />
+	</actions>
+</module>

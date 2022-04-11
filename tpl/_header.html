@@ -1,0 +1,27 @@
+<div class="x_page-header">
+	<h1>
+		{$lang->svcart}
+		<span class="path" cond="$module_info->mid">
+			&gt; <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" target="_blank"|cond="$module=='admin'">{$module_info->mid}<block cond="$module_info->is_default=='Y'">({$lang->is_default})</block></a>
+		</span>
+		<a href="#aboutModule" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+	</h1>
+</div>
+<p class="x_alert x_alert-info" id="aboutModule" hidden>{$lang->about_svcart}</p>
+<ul class="x_nav x_nav-tabs" cond="$module_info">
+	<li class="x_active"|cond="$act=='dispSvcartAdminCartManagement'"><a href="{getUrl('','module',$module,'act','dispSvcartAdminCartManagement','module_srl','')}">장바구니 목록</a></li>
+	<li class="x_active"|cond="$act=='dispSvcartAdminModInstList'"><a href="{getUrl('','module',$module,'act','dispSvcartAdminModInstList','module_srl','')}">{$lang->page_list}</a></li>
+	<li cond="$module_srl" class="x_active"><a href="{getUrl('act','dispSvcartAdminInsertModInst')}">{$module_info->mid} {$lang->page_management}</a></li>
+	<li class="x_active"|cond="!$module_srl && $act=='dispSvcartAdminInsertModInst'"><a href="{getUrl('','module',$module,'act','dispSvcartAdminInsertModInst')}">{$lang->page_creation}</a></li>
+	<li class="x_active"|cond="$act=='dispSvcartAdminNpayConfig'"><a href="{getUrl('','module',$module,'act','dispSvcartAdminNpayConfig')}">{$lang->npay_setting}</a></li>
+	<li class="x_active"|cond="$act=='dispSvcartAdminConfig'"><a href="{getUrl('','module',$module,'act','dispSvcartAdminConfig','module_srl','')}">{$lang->basic_setting}</a></li>
+</ul>
+<ul cond="$module_srl" class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$act=='dispSvcartAdminInsertModInst'"><a href="{getUrl('act','dispSvcartAdminInsertModInst')}">{$lang->page_setup}</a></li>
+	<li class="x_active"|cond="$act=='dispSvcartAdminSkinInfo' && $module_info->skin"><a href="{getUrl('act','dispSvcartAdminSkinInfo')}">{$lang->skin_setting}</a></li>
+	<li cond="$module_info->use_mobile=='Y' && $module_info->mskin" class="x_active"|cond="$act=='dispSvcartAdminMobileSkinInfo'"><a href="{getUrl('act','dispSvcartAdminMobileSkinInfo')}">{$lang->mobile_skin}</a></li>
+	<li class="x_active"|cond="$act=='dispSvcartAdminGrantInfo'"><a href="{getUrl('act','dispSvcartAdminGrantInfo')}">{$lang->permission_settings}</a></li>
+</ul>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == ''" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>

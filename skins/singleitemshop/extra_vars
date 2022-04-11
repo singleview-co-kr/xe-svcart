@@ -1,0 +1,53 @@
+*주문자 정보
+
+한줄 입력칸(text)
+purchaser_name
+주문자 성명
+필수
+일반필드
+
+이메일 형식(email)
+purchaser_email
+주문자 이메일
+필수
+일반필드
+
+전화번호 형식(phone)
+purchaser_phone
+주문자 전화번호
+필수
+일반필드
+
+단일 선택(single select)
+발급안함/현금영수증 발급/세금계산서 발급
+issue_receipts
+계산서/영수증
+필수
+일반필드
+
+
+*수령인 정보
+
+한줄 입력칸(text)
+receiver_name
+받으실 분 성함
+필수
+일반필드
+
+전화번호 형식(phone)
+receiver_tel
+유선전화
+선택
+일반필드
+
+전화번호 형식(phone)
+receiver_hp
+휴대폰 번호
+필수
+일반필드
+
+한국주소(zip)
+receiver_addr
+받으실 주소
+필수
+일반필드

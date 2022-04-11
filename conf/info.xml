@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
+    <title xml:lang="ko">싱글뷰 장바구니 관리</title>
+	<title xml:lang="en">Cart</title>
+	<title xml:lang="jp">カート</title>
+	<title xml:lang="zh-TW">購物車</title>
+    <description xml:lang="ko">장바구니를 관리하는 모듈입니다.</description>
+    <description xml:lang="en">You can use this cart module for Shopping mall and Contents mall.</description>	
+    <description xml:lang="jp">ショッピングモールとコンテンツモールの商品を一つのカートに入れることができます。</description>	
+    <description xml:lang="zh-TW">購物車, 線上課程內容、內容課程管理、電子商務管理.</description>
+    <version>1.2.0</version>
+    <date>2022-02-18</date>
+    <category>service</category>
+    <author email_address="root@singleview.co.kr" link="http://singleview.co.kr">
+        <name xml:lang="ko">Singleview.co.kr</name>
+    </author>
+</module>

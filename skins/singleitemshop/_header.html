@@ -1,0 +1,7 @@
+<load target="css/style.css" />
+<ul class="menuTab">
+	<li class="active"|cond="in_array($act,array(NULL, 'dispSvcartCartItems','dispSvcartOrderItems','dispSvcartOrderComplete'))"><a href="{getUrl('act','dispSvcartCartItems')}">{$lang->cmd_cart}</a></li>
+	<li class="active"|cond="$act=='dispSvcartFavoriteItems'"  cond="$logged_info"><a href="{getUrl('act','dispSvcartFavoriteItems')}">{$lang->cmd_favorites}</a></li>
+	<li cond="0" class="active"|cond="in_array($act,array('dispSvcartOrderList','dispSvcartOrderDetail'))"><a href="{getUrl('act','dispSvcartOrderList','non_password','0')}">결제내역</a></li>
+</ul>
+

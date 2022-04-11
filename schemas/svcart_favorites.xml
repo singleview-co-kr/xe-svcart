@@ -1,0 +1,5 @@
+<table name="svcart_favorites">
+	<column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
+	<column name="item_srl" type="number" size="11" notnull="notnull" index="idx_item_srl" />
+	<column name="regdate" type="date" notnull="notnull" />
+</table>

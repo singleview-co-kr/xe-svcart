@@ -1,0 +1,48 @@
+<include target="_header.html" />
+
+<form action="./" class="x_form-horizontal" method="post" enctype="multipart/form-data" ruleset="insertConfig">
+<input type="hidden" name="module" value="{$module}" />
+<input type="hidden" name="act" value="procSvcartAdminNpayConfig" />
+	<section class="section">
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->npay_toggle}</label>
+			<div class="x_controls">{$lang->howto_npay_toggle}</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->npay_mode}</label>
+			<div class="x_controls">
+				<label for="status" class="x_inline"><input type="radio" name="npay_mode" id="npay_mode" value="0" checked="checked"|cond="$config->npay_mode == 0 || !$config->npay_mode" /> {$lang->test}</label>
+				<label for="status" class="x_inline"><input type="radio" name="npay_mode" id="npay_mode" value="1" checked="checked"|cond="$config->npay_mode == 1" /> {$lang->release}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="npay_shop_id">{$lang->npay_shop_id}</label>
+			<div class="x_controls">
+				<input type="text" name="npay_shop_id" id="npay_shop_id" value="{$config->npay_shop_id}" />
+				<a href="#npay_shop_id_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="npay_shop_id_help" class="x_help-block" hidden>{$lang->about_npay_shop_id}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="delivery_fee">{$lang->npay_mert_key}</label>
+			<div class="x_controls">
+				<input type="text" name="npay_mert_key" id="npay_mert_key" value="{$config->npay_mert_key}" />
+				<a href="#delivery_fee_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="delivery_fee_help" class="x_help-block" hidden>{$lang->about_npay_mert_key}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="freedeliv_amount">{$lang->npay_btn_key}</label>
+			<div class="x_controls">
+				<input type="text" name="npay_btn_key" id="npay_btn_key" value="{$config->npay_btn_key}" />
+				<a href="#freedeliv_amount" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="freedeliv_amount" class="x_help-block" hidden>{$lang->about_btn_key}</p>
+			</div>
+		</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit" accesskey="s">{$lang->cmd_registration}</button>
+		</div>
+	</div>
+</form>

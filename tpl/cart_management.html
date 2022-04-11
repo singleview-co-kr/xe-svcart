@@ -1,0 +1,63 @@
+<include target="_header.html" />
+<form id="searchForm" action="./" method="get" class="x_input-append" >
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+	<input type="hidden" name="status" value="{$status}" />
+	<input type="hidden" name="error_return_url" value="" />
+	<div>
+		<select name="s_year" style="width:80px;">
+			<option loop="$i=(intval(date('Y'))+2);$i>=(intval(date('Y'))-10);$i--" value="{$i}" selected="selected"|cond="$s_year==$i">{$i}</option>
+		</select>
+		<select name="s_month" style="width:54px;">
+			<option value="" selected="selected"|cond="!$s_month">{$lang->all}</option>
+			<option loop="$i=1;$i<=12;$i++" value="{sprintf('%02u', $i)}" selected="selected"|cond="$s_month==$i">{$i}</option>
+		</select>
+		<button class="x_btn x_btn-inverse" type="submit">{$lang->inquiry}</button>
+	</div>
+</form>
+<div id="orderlist" class="table even easyList">
+	<table class="x_table x_table-striped x_table-hover" summary="{$lang->order_management_details}">
+		<thead style="clear:both;">
+			<tr>
+				<th scope="col"><input type="checkbox" title="Check All" id="check_all" /></th>
+				<th scope="col">{$lang->no}</th>
+				<th scope="col">{$lang->order_date}</th>
+				<th scope="col">{$lang->member}</th>
+				<th scope="col">{$lang->product_name}</th>
+				<th scope="col">{$lang->items}</th>
+				<th scope="col">{$lang->amount}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr loop="$list=>$no,$order">
+				{@$order_arr = get_object_vars($order)}
+				<td><input type="checkbox" name="cart[]" value="{$order->cart_srl}" /></td>
+				<td><div><a href="{getUrl('act','dispSvcartAdminCartDetail','cart_srl',$order->cart_srl)}">{$order->cart_srl}</a></div></td>
+				<td><div>{zdate($order->regdate,'Y-m-d')}</div></td>
+				<td>
+					<div><a href="#popup_menu_area" class="member_{$order->member_srl}">{$order->user_id}</a></div>
+				</td>
+				<td><span title="{$order->title}">{cut_str($order->item_name, 14)}</span></td>
+				<td>{number_format($order->quantity)}</td>
+				<td>{number_format($order->price*$order->quantity)}</td>
+			</tr>
+			<tr cond="!count($list)">
+				<td colspan="9">{$lang->msg_no_order_list}</td>
+			</tr>
+		</tbody>
+	</table>
+</div><!-- //orderlist -->
+<include target="_page_navigation.html" />
+
+<div class="x_modal" id="deleteOrders">
+	<form action="./" class="fg form" method="post">
+		<input type="hidden" name="module" value="{$module}" />
+		<input type="hidden" name="act" value="procNstoreAdminDeleteOrders" />
+		<input type="hidden" name="module_srl" value="{$module_srl}" />
+		<input type="hidden" name="status" value="{$status}" />
+		<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
+		<div id="deleteForm">
+		</div>
+	</form>
+</div>
+<span style="display:none;"><a href="#deleteOrders" class="modalAnchor deleteOrders">Hidden Button For Delete</a></span>

@@ -1,0 +1,15 @@
+<query id="getFavoriteItems" action="select">
+	<tables>
+		<table name="svcart_favorites" />
+	</tables>
+	<columns>
+		<column name="item_srl" alias="item_srl" />
+		<column name="regdate" alias="regdate" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" />
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="regdate" order="asc" />
+	</navigation>
+</query>

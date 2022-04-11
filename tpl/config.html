@@ -1,0 +1,51 @@
+<include target="_header.html" />
+<form action="./" method="post" class="x_form-horizontal" enctype="multipart/form-data">
+<input type="hidden" name="module" value="{$module}" />
+<input type="hidden" name="act" value="procSvcartAdminConfig" />
+	<section class="section">
+		<h1>
+			{$lang->title_cart_expiration_policy}
+			<a href="#aboutCartExpirationPolicy" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+		</h1>
+		<p id="aboutCartExpirationPolicy" class="x_alert x_alert-info-block" hidden>{$lang->about_cart_expiration_policy}</p>
+		<div class="x_control-group">
+			<label class="x_control-label" for="cart_expiration_days">{$lang->cart_expiration_days}</label>
+			<div class="x_controls">
+				<input type="text" name="cart_expiration_days" class="x_span1" id="cart_expiration_days" value="{$config->cart_expiration_days}" />일로 제한
+			</div>
+		</div>
+	</section>
+	<section class="section">
+		<h1>
+			{$lang->title_site_group_cart_qty_policy}
+			<a href="#aboutGroupDiscount" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+		</h1>
+		<p id="aboutGroupDiscount" class="x_alert x_alert-info-block" hidden>{$lang->about_site_group_cart_qty_policy}</p>
+		<div class="x_control-group">
+			<label class="x_control-label" for="group_policy_toggle">{$lang->group_policy_toggle}</label>
+			<label class="x_inline" for="group_policy_toggle">
+				<input type="radio" name="group_policy_toggle" id="group_policy_toggle" value="on" checked="checked"|cond="$config->group_policy_toggle=='on'" />
+				{$lang->on}
+			</label>
+			<label class="x_inline" for="group_policy_toggle">
+				<input type="radio" name="group_policy_toggle" id="group_policy_toggle" value="off" checked="checked"|cond="$config->group_policy_toggle=='off' || !$config->group_policy_toggle" />
+				{$lang->off}
+			</label>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="group_qty_0">{$lang->guest}</label>
+			<div class="x_controls">
+				장바구니 최대 수량을 <input type="text" name="group_qty_0" class="x_span1" id="group_qty_0" value="{$config->group_cart_policy[0]}" />개로 제한
+			</div>
+		</div>
+		<div class="x_control-group" loop="$group_list=>$key,$val">
+			<label class="x_control-label" for="group_qty_{$key}">{$val->title}</label>
+			<div class="x_controls">
+				장바구니 최대 수량을 <input type="text" name="group_qty_{$key}" class="x_span1" id="group_qty_{$key}" value="{$config->group_cart_policy[$key]}" />개로 제한
+			</div>
+		</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_registration}</button>
+	</div>
+</form>

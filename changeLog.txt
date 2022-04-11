@@ -1,0 +1,2636 @@
+v 0.0.1
+19th, Jan 2015
+1. /lang/lang.xml
+현금영수증/세금계산서 관련 안내메세지 추가
+아래의 코드를 
+<item name="about_input_payment_info">
+	<value xml:lang="ko"><![CDATA[결제 수단을 선택하신 후 결제하기 버튼을 클릭하세요]]></value>
+	<value xml:lang="en"><![CDATA[Select payment method and click the order button]]></value>
+	<value xml:lang="jp"><![CDATA[お支払い方法を選んで決済ボタンをクリックしてください]]></value>
+	<value xml:lang="zh-TW"><![CDATA[選擇付款方式並點擊訂購按鈕]]></value>				
+</item>
+
+아래와 같이 변경
+<item name="about_input_payment_info">
+	<value xml:lang="ko"><![CDATA[현금영수증 관련 주의사항<BR>1. 세금계산서 불필요로 선택하시면, 추후 재발급이 불가합니다.<BR>2. 온라인결제를 통해 신용카드 매출전표 혹은 현금영수증 발행하시면, 사업자가 별도의 세금계산서를 교부할 수 없습니다.<BR>3. 현금영수증을 발행하고 싶으시면, 결제방식을 실시간계좌이체로 선택하신 후, 현금영수증 발행을 선택해 주십시오.<BR>4. 실시간계좌이체로 선택하여 현금영수증 발행하지 않았을 경우, 추후 재발급이 불가합니다.<BR><BR>결제 수단을 선택하신 후 결제하기 버튼을 클릭하세요.]]></value>
+	<value xml:lang="en"><![CDATA[Select payment method and click the order button]]></value>
+	<value xml:lang="jp"><![CDATA[お支払い方法を選んで決済ボタンをクリックしてください]]></value>
+	<value xml:lang="zh-TW"><![CDATA[選擇付款方式並點擊訂購按鈕]]></value>				
+</item>
+
+2. ./layouts/inbody/css/user_override.scss.css
+현금영수증/세금계산서 선택창 표시
+
+아래의 코드를 
+select,.promotion select
+{
+	z-index:1;
+	height:33px;
+	margin:0;
+	appearance:none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	padding-left:10px;
+	background:url("//cdn.shopify.com/s/files/1/0208/5970/t/70/assets/grey_arrow.png?14658") no-repeat 97% 50%;
+	background-size:30px;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter:alpha(opacity=0);
+	-moz-opacity:0;
+	-khtml-opacity:0;
+	opacity:0;
+	position:absolute
+}
+
+아래와 같이 변경
+select,.promotion select
+{
+	z-index:1;
+	height:30px;
+	margin:0;
+	appearance:none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	padding-left:10px;
+	background-size:30px;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
+	filter:alpha(opacity=1);
+	-moz-opacity:1;
+	-khtml-opacity:1;
+	opacity:1;
+	position:absolute
+}
+
+3. ./skins/inbody/css/checkout.css
+현금영수증/세금계산서 선택창 표시
+
+아래의 코드를
+select 
+{
+	border: 1px solid #ccc;
+	padding: 6px 4px;
+	outline: none;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	font: 13px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #777;
+	margin: 0;
+	width: 210px;
+	/*max-width: 100%;*/
+	display: block;
+	margin-bottom: 20px;
+	background: #fff;
+}
+
+select { width:100%; }
+
+아래와 같이 변경
+select 
+{
+	background:url("http://singleview.co.kr/xe/layouts/inbody/img/grey_arrow.png") no-repeat 97% 50%;
+	border: 1px solid #ccc;
+	padding: 6px 4px;
+	outline: none;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	font: 13px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #777;
+	margin: 0;
+	width: 210px;
+	/*max-width: 100%;*/
+	display: block;
+	margin-bottom: 20px;
+	background: #fff;
+	padding: 0;
+}
+/*select { width:100%; }*/
+
+4. ./ncart.view.php::dispNcartOrderDetail()
+고객 개인정보 노출 위험을 방지하기 위해 아래의 코드를 method 최상단에 추가함
+return new Object(-1,'msg_not_permitted');
+
+v 0.0.2
+20th, Jan 2015
+1. ./skins/inbody/ordercomplete.html
+아래의 코드를 추가하여 비회원 구매 주문관리 기능 활성화
+<h2>결제 내역입니다.</h2>
+아래와 같이 변경
+<h2><block cond="!$logged_info"><STRONG>{$lang->order_number}&nbsp;{$order_info->order_srl}</STRONG>의 </block>결제 내역입니다.</h2>
+
+2. ./skins/inbody/ordercomplete.html
+<div id="buttons"> 영역에 아래의 코드 추가하여 비회원 구매 주문관리 기능 활성화
+<block cond="!$logged_info"><span id="cancel-purchase" STYLE='font-size:2em;'><a href="/my_order?order_srl={$order_info->order_srl}">꼭 기억하세요! 귀하의 비회원 주문번호는 <strong>{$order_info->order_srl}</strong>입니다.</a></span><BR></block>
+
+v 0.0.3
+22nd, Jan 2015
+1. ./skins/inbody/orderitems.html 
+모바일에서 SELECT BOX가 viewport를 넘어가는 문제 해결
+/layouts/inbody/css/user_override.scss.css에서 아래의 코드 추가
+
+.test_4 select
+{
+	z-index:1;
+	height:30px;
+	margin:0;
+	appearance:none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	padding-left:10px;
+	background-size:30px;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
+	filter:alpha(opacity=1);
+	-moz-opacity:1;
+	-khtml-opacity:1;
+	opacity:1;
+	position:relative  /* absolute를 relative로 변경 */
+}
+
+v 0.0.4
+27th, Jan 2015
+1. ./skins/inbody/orderitems.html
+모바일 페이지 사용자 정의 변수 영역을 하드 코딩으로 변경함
+주문자 정보와 수령인 정보가 동일 기능 적용
+
+18th, Feb 2015
+1. ./ncart.controller.php::triggerProcessReview()에서 기본 주문 정보 validation 추가
+purchaser_name, purchaser_email, purchaser_cellphone, issue_receipts
+
+if(!$manorder_pid && !$logged_info) 부분에서
+{
+	$args->purchaser_cellphone = $in_args->purchaser_cellphone; 을 아래와 같이 변경
+	$args->purchaser_cellphone = $aPurchaserCellphone;
+}
+
+if(!$manorder_pid && !$logged_info) 아래 부분에서 수령인 정보 추가
+
+// manipulate receipient information 20150218
+$args->recipient_name = $in_args->recipient_name; //Context::get('recipient_name');
+
+// complete data string of receipient_cellphone shoule be 111|@|222|@|333
+$sReceipientCellphone = Context::get( 'recipient_cellphone' );
+$aReceipientCellphone = explode( '|@|', $sReceipientCellphone );
+
+if( strlen( trim( $sReceipientCellphone ) ) == 0 || count( $aReceipientCellphone ) != 3 )
+	return new Object(-1, 'msg_invalid_receipient_cellphone');
+
+$args->recipient_cellphone = $aReceipientCellphone;
+
+// complete data string of recipient_telnum shoule be 111|@|222|@|333
+$sReceipientTelnum = Context::get( 'recipient_telnum' );
+$aReceipientTelnum = explode( '|@|', $sReceipientTelnum );
+
+if( strlen( trim( $sReceipientTelnum ) ) == 0 || count( $aReceipientTelnum ) != 3 )
+	return new Object(-1, 'msg_invalid_receipient_telnum');
+
+$args->recipient_telnum = $aReceipientTelnum; 
+
+2. /lang/lang.xml에서 msg 추가
+msg_invalid_purchaser_name 
+msg_invalid_purchaser_email
+msg_invalid_purchaser_cellphone
+msg_invalid_issue_receipts
+msg_invalid_receipient_cellphone
+
+
+3. ./ncart.view.php::dispNcartOrderItems()에서 postcodify module 기본 채택
+Context::addJsFile('./modules/member/tpl/js/krzip_search.js'); 비활성화
+
+Context::addCssFile( './modules/krzip/tpl/css/postcodify.css' ); 추가
+Context::addJsFile( './modules/krzip/tpl/js/postcodify.js' ); 추가
+
+v 0.0.5
+21st, Feb 2015
+1. ./skins/inbody/orderitems.html에서 배송메세지 입력칸 추가
+데탑 / 모바일 extra_vars 자동 출력 영역 추가
+
+2. ./ncart.admin.model.php::getFieldSetList() 생성
+postcodify의 js 함수가 관리자의 사용자 변수 정의 js 함수와 충돌을 해결하기 위해서
+사용자 정의 필드에서 html template를 로드하지 않음
+
+3. ./ncart.admin.view.php::dispNcartAdminOrderForm()에서 아래와 같이 변경
+postcodify의 js 함수가 관리자의 사용자 변수 정의 js 함수와 충돌을 해결하기 위해서
+$oNcartModel = &getModel('ncart'); 을 
+$oNcartAdminModel = &getAdminModel('ncart');으로 변경
+
+$fieldset_list = $oNcartModel->getFieldSetList($this->module_info->module_srl); 을
+$fieldset_list = $oNcartAdminModel->getFieldSetList($this->module_info->module_srl); 으로 변경
+
+4. ./ncart.controller.php::triggerProcessReview()에서 
+카트모듈의 사용자 정의 확장 변수 처리를 명확하게 하기 위해 
+$delivdest_info 변수명을 $aExtraOrderForm으로 변경
+
+v 0.0.6
+25th, Feb 2015
+1. /lang/lang.xml
+현금영수증/세금계산서 관련 안내메세지 제거 - 구매자들이 안내 문구를 보지 않음
+아래의 코드를 
+<item name="about_input_payment_info">
+	<value xml:lang="ko"><![CDATA[현금영수증 관련 주의사항<BR>1. 세금계산서 불필요로 선택하시면, 추후 재발급이 불가합니다.<BR>2. 온라인결제를 통해 신용카드 매출전표 혹은 현금영수증 발행하시면, 사업자가 별도의 세금계산서를 교부할 수 없습니다.<BR>3. 현금영수증을 발행하고 싶으시면, 결제방식을 실시간계좌이체로 선택하신 후, 현금영수증 발행을 선택해 주십시오.<BR>4. 실시간계좌이체로 선택하여 현금영수증 발행하지 않았을 경우, 추후 재발급이 불가합니다.<BR><BR>결제 수단을 선택하신 후 결제하기 버튼을 클릭하세요.]]></value>
+	<value xml:lang="en"><![CDATA[Select payment method and click the order button]]></value>
+	<value xml:lang="jp"><![CDATA[お支払い方法を選んで決済ボタンをクリックしてください]]></value>
+	<value xml:lang="zh-TW"><![CDATA[選擇付款方式並點擊訂購按鈕]]></value>				
+</item>
+
+아래와 같이 변경
+<item name="about_input_payment_info">
+	<value xml:lang="ko"><![CDATA[결제 수단을 선택하신 후 결제하기 버튼을 클릭하세요]]></value>
+	<value xml:lang="en"><![CDATA[Select payment method and click the order button]]></value>
+	<value xml:lang="jp"><![CDATA[お支払い方法を選んで決済ボタンをクリックしてください]]></value>
+	<value xml:lang="zh-TW"><![CDATA[選擇付款方式並點擊訂購按鈕]]></value>				
+</item>
+
+v 0.0.7
+29th, Mar 2015
+1. ./ncart.admin.view.php::init()에서 cympusadmin 종속성 제거위해 아래의 코드 삭제
+// module이 cympusadmin일때 관리자 레이아웃으로
+if(Context::get('module')=='cympusadmin')
+{
+    $classfile = _XE_PATH_.'modules/cympusadmin/cympusadmin.class.php';
+    if(file_exists($classfile))
+    {
+	    require_once($classfile);
+	    cympusadmin::init();
+    }
+}
+
+v 0.0.8
+1st, Aug 2015
+1. nproduct 모듈 이름을 svitem으로 변경에 대응하여 ./ncart.class.php에서 nproduct require 를 svitem require로 변경
+require_once(_XE_PATH_.'modules/svitem/svitem.item.php');
+
+v 0.0.9
+2nd, Aug 2015
+1. ncart에서 svcart로 모듈명 변경
+
+v 0.1.0
+9th, Aug 2015
+1. ./svcart.model.php::getModuleConfig()에서 svcurrency 모듈이 설치되어 있는 경우에만 호출하도록 변경
+if( getClass('svcurrency') ) 조건절 추가
+
+v 0.1.1
+9th, Aug 2015
+1. ./svcart.admin.view.php::init()에서 아래의 코드를 추가
+if(Context::get('module')=='svshopmaster')
+{
+	$this->setLayoutPath('');
+	$this->setLayoutFile('common_layout');
+}
+svshopmaster 레이아웃에서 http://singletest.zc.bz/index.php?module=svshopmaster&act=dispNproductAdminItemList&module_srl=ㅌㅌㅌ 를 호출할 때
+$this->module_info->layout_srl에 정보가 있으면 모듈 디자인 설정을 실행하기 때문에 레이아웃을 강제 변경
+
+v 0.1.2
+15th, Aug 2015
+1. svcurrency 모듈 제거하고 svitem 모듈에서 환율 설정 조회
+./svcart.model.php::getModuleConfig()에 아래의 코드 추가
+if( getClass('svitem') )
+{
+	$oSvitemModel = &getModel('svitem');
+	$currency = $oSvitemModel->getCurrencyInfo();
+	//$currency = $oSvcurrencyModel->getModuleConfig();
+}
+else
+	return new Object(-1,'msg_svitem_uninstalled');
+
+$config->currency = $currency->currency;
+$config->as_sign = $currency->as_sign;
+$config->decimals = $currency->decimals;
+
+v 0.1.3
+19th, Sep 2015
+1. ./tpl/config.html에서 비회원구매 설정값이 없으면(초기 셋팅 상태) '미사용'으로 표시되도록 코드 변경
+
+v 0.1.4
+3rd, Oct 2015
+1. svcart의 ordercomplete.html 스킨에서 svorder를 인식할 수 있는 변수 설정
+./tpl/insertmodinst.html에서 ./skins/#/ordercomplete.html 화면에서 연결할 주문관리 모듈 선택 기능
+./svcart.admin.view.php::dispSvcartAdminInsertModInst()에서 아래의 루틴 추가
+// svorder linked module list
+$oSvorderModel = &getModel('svorder');
+$oSvorderModules = $oSvorderModel->getSvorderList();
+Context::set( 'svorder_modules', $oSvorderModules );
+
+./svcart.view.php::dispSvcartOrderComplete()에서 아래의 루틴 추가
+if( !$this->module_info->svorder_module_srl )
+$sSvorderModuleMid = 'not_exists';
+else
+{
+	$oModuleModel = &getModel('module');
+	$sSvorderModuleMid = $oModuleModel->getModuleInfoByModuleSrl( (int)$this->module_info->svorder_module_srl, array( 'mid' ) );
+}
+Context::set('order_mgmt_module_mid', $sSvorderModuleMid );
+
+lang->order_mgmt_module 추가
+lang->order_mgmt_module_management
+
+2. 결제 완료 화면에서 쇼핑 계속하기 문장과 연결 링크를 svcart 스킨 설정으로 이전
+
+
+v 0.1.5
+4th, Oct 2015
+1. XXX원 이상 무료 배송 표시 기능 추가
+./svcart.view.php::dispSvcartOrderItems()에서 아래의 코드 추가
+$oSvcartModel = &getModel('svcart');
+$config = $oSvcartModel->getModuleConfig();
+Context::set('freedeliv_amount', $config->freedeliv_amount );
+$lang->about_free_shipping_settlement_amnt_info 추가
+
+2. 배송비 선불/후불 선택 기능
+./tpl/config.html에서 $config->display_delivfee를 $config->shipping_fee_payment_type 변경
+$lang->shipping_cost_postpaid 추가
+$lang->shipping_cost_prepaid 추가
+
+v 0.1.6
+16th, Nov 2015
+1. svcart admin에서 새로운 svcart 모듈을 생성할 때 PG모듈과 주문관리모듈을 반드시 선택하도록 변경
+./ruleset/insertModInst.xml에서 아래의 코드 추가
+<field name="svpg_module_srl" required="true" rule="number"/>
+<field name="svorder_module_srl" required="true" rule="number"/>
+
+./lang/lang.xml에 아래의 코드 추가
+<item name="svpg_module_srl">
+	<value xml:lang="ko"><![CDATA[PG모듈]]></value>
+</item>
+<item name="svorder_module_srl">
+	<value xml:lang="ko"><![CDATA[주문관리모듈]]></value>
+</item>
+
+v 0.1.7
+19th, Nov 2015
+1. 결제입력폼에서 영수증 발급 정보 없으면 에러 반환에서 -> '발급안함'으로 변경
+./ruleset/insertModInst.xml에서 아래의 코드 추가
+
+아래의 코드를
+if( strlen( trim( $sIssueReceipts ) ) == 0 || !in_array( $sIssueReceipts, $aIssueReceipts ) )
+	return new Object(-1, 'msg_invalid_issue_receipts');
+아래와 같이 변경
+if( strlen( trim( $sIssueReceipts ) ) == 0 || !in_array( $sIssueReceipts, $aIssueReceipts ) )
+	$sIssueReceipts = '발급안함';
+
+2. 기본 결제정보 입력폼 유효성 검사 스크립트를 공통 라이브러리로 이동
+./tpl/skin.js/orderitems.js에 추가
+
+
+v 0.1.8
+25th, Nov 2015
+1. 결제창 입력 후 할인 쿠폰 적용 기능
+./svcart.controller.php::triggerProcessReview() 정리 및  결제 금액 설정 & 주문서 항목 설정 코드 추가
+./svcart.controller.php::insertOrder()에서 updateCartItems기능을 분리
+./svcart.controller.php::updateCartItems() 추가
+./svcart.controller.php::_validatePurchaserReceipientInfo() 추가
+./svcart.controller.php::insertOrder()로 루틴 일부 부담
+
+v 0.1.9
+26th, Nov 2015
+1. 결제창 입력 후 할인 쿠폰 적용 기능 강화
+./svcart.controller.php::triggerProcessReview()에서 svpromotion module 연결
+2. 결제창에서 쿠폰번호 검증 메쏘드 적용
+./tpl/skin.js/orderitems.js::validateCouponSerial() 추가
+./tpl/skin.js/orderitems.js::formatCurrencyInt() 추가
+./svcart.model.php::getSvcartCouponValidation() 생성
+
+v 0.2.0
+28th, Nov 2015
+1. 프로모션 관련 정보 항목 추가
+./schemas/svcart_order.xml에서
+<column name="promotion_info" type="text" /> 추가하여 promotion_info 변수를 serialize하여 저장
+
+./queries/insertOrder.xml에 아래의 항목 추가
+<column name="promotion_info" var="promotion_info" />
+
+./svcart.controller.php::insertOrder()에서 아래의 루틴 추가
+$in_args->promotion_info = $in_args->cart->promotion_info;
+
+
+v 0.2.1
+1st, Dec 2015
+1. 회원 구매 시 sv
+./schemas/svcorder_order tbl엣 회원 핸드폰 번호가 |@| 구분자로 표시되는 현상 방지
+./svcart.controller.php::_validatePurchaserReceipientInfo()에서 아래의 코드를 
+// purchaser info validation
+if( $logged_info )
+{
+	$in_args->member_srl = $logged_info->member_srl;
+	$in_args->purchaser_email = $logged_info->email_address;
+	$in_args->purchaser_name = $logged_info->nick_name;
+	
+	if( isset($logged_info->{$config->purchaser_cellphone}) )
+		$in_args->purchaser_cellphone = $logged_info->{$config->purchaser_cellphone};
+	
+	if( isset( $logged_info->{$config->purchaser_telnum} ) )
+		$in_args->purchaser_telnum = $logged_info->{$config->purchaser_telnum};
+}
+아래와 같이 변경
+// purchaser info validation
+if( $logged_info )
+{
+	$in_args->member_srl = $logged_info->member_srl;
+	$in_args->purchaser_email = $logged_info->email_address;
+	$in_args->purchaser_name = $logged_info->nick_name;
+	
+	// complete data string of purchaser_cellphone shoule be 111|@|222|@|333
+	if( isset($logged_info->{$config->purchaser_cellphone}) )
+	{
+		$sPurchaserCellphone = $logged_info->{$config->purchaser_cellphone};
+		$aPurchaserCellphone = explode( '|@|', $sPurchaserCellphone );
+	}
+	else
+	{
+		$sPurchaserCellphone = $in_args->purchaser_cellphone;
+		$aPurchaserCellphone = explode( '|@|', $sPurchaserCellphone );
+	}
+	$in_args->purchaser_cellphone = $aPurchaserCellphone;
+
+	//if( isset( $logged_info->{$config->purchaser_telnum} ) )
+	//	$in_args->purchaser_telnum = $logged_info->{$config->purchaser_telnum};
+}
+
+v 0.2.2
+12th, Dec 2015
+./svcart.model.php::discountItems()에서 svpromotion 호출
+$oSvpromotionModel = &getModel('svpromotion');
+return $oSvpromotionModel->getItemPriceCart($item_list, $group_list, $width, $height);
+
+v 0.2.3
+16th, Dec 2015
+1. ./svcart.view.php::dispSvcartOrderItems()에서 적립금 사용 여부 설정 변수명을 변경
+아래의 코드를 
+Context::set('mileage_flag', $mileage_config->use_flag);
+아래와 같이 변경
+Context::set('use_mileage', $mileage_config->use_flag);
+
+2. ./svcart.view.php::dispSvcartOrderComplete()에서 적립금 사용 여부 설정 변수명을 변경
+아래의 코드를 
+Context::set('mileage_flag', $mileage_config->use_flag);
+아래와 같이 변경
+Context::set('use_mileage', $mileage_config->use_flag);
+
+3. 번들링 주문 정보를 저장하는 필드 생성
+./schemas/svcart.xml에 아래의 코드 추가
+<column name="bundling_order_info" type="varchar" size="250" />
+./svcart.controller.php::addItems()에서 아래의 코드 추가
+if( strlen( $in_args->bundling_order_info ) > 0 )
+	$args->bundling_order_info = $in_args->bundling_order_info;
+
+./queries/insertCartItem.xml에서 아래의 코드 추가
+<column name="bundling_order_info" var="bundling_order_info" default="" />
+
+v 0.2.4
+20th, Dec 2015
+1. 쿠폰 코드 할인액의 절삭 기능 적용
+./svcart.model.php::getSvcartCouponValidation()에서 장바구니 정보를 추출하여 상품번호와 수량 배열로 생성하는 코드 블록 추가
+
+./svcart.model.php::getSvcartCouponValidation()에서 아래의 코드를
+$output = $oSvpromotionModel->getCouponInfoBySerialNumber( $sCouponSerial );
+아래와 같이 변경
+$output = $oSvpromotionModel->getCouponInfoBySerialNumber( $sCouponSerial, $aDiscountPolicyTable );
+
+./tpl/skin.js/orderitems.js::_getParameterByName() 추가
+./tpl/skin.js/orderitems.js::validateCouponSerial()에 쿠폰 할인 정책 코드 블록 개선
+
+2. ./svcart.model.php::getCartItem() 추출 기능 효율화
+아래의 코드를
+if(!$output->toBool() ) 
+아래와 같이 변경
+if(!$output->toBool() || count( $output->data ) == 0 ) 
+
+
+v 0.2.5
+22nd, Dec 2015
+1. bundling_order_info 저장 공간 확장
+./schemas/svcart.xml 에서 아래의 코드를
+<column name="bundling_order_info" type="varchar" size="250" />
+아래와 같이 변경
+<column name="bundling_order_info" type="text" />
+
+v 0.2.6
+23rd, Feb 2016
+1. ./svcart.admin.view.php::dispSvcartAdminInsertModInst()에서
+$oSvcartModel = &getModel('svcart'); 비활성화
+2. ./schemas/svcart.xml에 아래의 코드 추가
+<column name="conditional_promotion" type="varchar" size="50" />
+3. ./svcart.controller.php::addItems()에서 아래의 코드 추가
+$args->conditional_promotion = $in_args->conditional_promotion;
+4. ./queries/insertCartItem.xml에 아래의 코드 추가
+<column name="conditional_promotion" var="conditional_promotion" default="" />
+
+v 0.2.7
+9th, Mar 2016
+1. ./svcart.controller.php::triggerProcessReview()에서 쿠폰 정액 할인 코드 블록 변경
+아래의 코드를
+$in_args->cart->total_discount_amount = $nInitialItemTotalPrice - $discount_policy;  
+$in_args->cart->promotion_info = serialize( $output->data[0] );
+아래와 같이 변경
+$in_args->cart->total_discount_amount = $discount_policy;
+$in_args->cart->promotion_info = $output->data[0]->promotion_title.' '.$in_args->cart->total_discount_amount.'원 할인';
+
+v 0.2.8
+11th, Mar 2016
+1. ./svcart.controller.php::triggerProcessReview()에서 쿠폰 할인 정책 코드 블록을 svpromotion으로 이전
+
+2. ./svcart.model.php::getSvcartCouponValidation()에서, 
+아래의 코드를
+$this->add('disctype', $output->data[0]->descount_type);
+$this->add('discpolicy', $output->data[0]->discpolicy);
+$this->add('promotion_title', $output->data[0]->promotion_title);
+
+아래와 같이 변경
+$this->add('disctype', $output->data->descount_type);
+$this->add('discpolicy', $output->data->discpolicy);
+$this->add('promotion_title', $output->data->promotion_title);
+
+3. ./svcart.controller.php::triggerProcessReview()에서, 
+아래의 코드를
+$discount_policy = $output->data[0]->discpolicy;
+if( $discount_policy == 0 )
+	$in_args->cart->total_discount_amount = 0;
+else if( $discount_policy > 0 && $discount_policy < 1 )
+	$in_args->cart->total_discount_amount = $nInitialItemTotalPrice * $discount_policy;  // 주문서 입력 후 할인액; 주문서 입력전 할인액은 무시함
+else if( $discount_policy > 1 )
+	$in_args->cart->total_discount_amount = $discount_policy;  // 주문서 입력 후 할인액; 주문서 입력전 할인액은 무시함
+$in_args->cart->promotion_info = $output->data[0]->promotion_title.' '.$in_args->cart->total_discount_amount.'원 할인';//seria
+
+아래와 같이 변경
+$discount_policy = $output->data->discpolicy;
+if( $discount_policy == 0 )
+	$in_args->cart->total_discount_amount = 0;
+else if( $discount_policy > 0 && $discount_policy < 1 )
+	$in_args->cart->total_discount_amount = $nInitialItemTotalPrice * $discount_policy;  // 주문서 입력 후 할인액; 주문서 입력전 할인액은 무시함
+else if( $discount_policy > 1 )
+	$in_args->cart->total_discount_amount = $discount_policy;  // 주문서 입력 후 할인액; 주문서 입력전 할인액은 무시함
+$in_args->cart->promotion_info = $output->data->promotion_title.' '.$in_args->cart->total_discount_amount.'원 할인';//ser
+
+
+4. ./svcart.controller.php::triggerProcessReview()에서, 
+svpromotion.model.php::getCouponInfoBySerialNumber() 코드 블록 변경에 따라 아래의 코드를 
+$output = $oSvpromotionModel->getCouponInfoBySerialNumber( $sCouponSerial );
+if( !$output->toBool() )
+	return $output;
+if( $discount_policy == 0 )
+	$in_args->cart->total_discount_amount = 0;
+else if( $discount_policy > 0 && $discount_policy < 1 )
+	$in_args->cart->total_discount_amount = $nInitialItemTotalPrice * $discount_policy;  // 주문서 입력 후 할인액; 주문서 입력전 할인액은 무시함
+else if( $discount_policy > 1 )
+	$in_args->cart->total_discount_amount = $discount_policy;  // 주문서 입력 후 할인액; 주문서 입력전 할인액은 무시함
+$in_args->cart->promotion_info = $output->data->promotion_title.' '.$in_args->cart->total_discount_amount.'원 할인';//ser
+
+아래와 같이 변경
+$output = $oSvpromotionModel->getItemPriceCheckout( $in_args );
+if( !$output->toBool() )
+	return $output;
+
+$nDiscAmnt = $output->get('total_discount_amount');
+if( $nDiscAmnt > 0 )
+{
+	$in_args->cart->total_discount_amount = $nDiscAmnt;
+	$in_args->cart->promotion_info = $output->get('promotion_info');
+}
+
+v 0.2.9
+14th, Mar 2016
+1. 쿠폰 할인액 계산 오류 개선
+./tpl/skin.js/orderitems.js::validateCouponSerial()에서 
+아래의 코드를
+nTotalAmnt = parseInt( nTotalAmnt.replace(',', '') );
+아래와 같이 변경
+nTotalAmnt = parseInt( nTotalAmnt.replace(/,/g, '') );
+
+2. 쿠폰이 이미 적용된 혜택보다 나쁘거나 같으면 처리 거부
+./svcart.model.php::getSvcartCouponValidation()에서 아래의 코드 추가
+// 이미 적용된 할인 혜택을 계산
+$nOriginalPrice += $aSingleCartInfo->price * $aSingleCartInfo->quantity;
+$nAlreadyDiscountedAmnt += ($aSingleCartInfo->price - $aSingleCartInfo->discount_amount)*$aSingleCartInfo->quantity;
+
+$oSvpromotionModel = &getModel('svpromotion');
+$output = $oSvpromotionModel->getCouponInfoBySerialNumber( $sCouponSerial, $nOriginalPayAmnt, $nAlreadyDiscountedPayAmnt );
+
+3. 결제 완료 표시 내역 개선
+./skins/Trendshop/ordercomplete.html에서 아래의 코드를
+<td><!--@if($val->discount_amount)-->{svitemItem::printPrice($val->discount_amount)}<br />{$val->discount_info}<!--@else-->0<!--@endif--></td>
+<td class="item_price"><strong>{$val->printDiscountedPrice()}</strong></td>
+아래와 같이 변경
+<td><!--@if($val->discount_amount)-->{svitemItem::printPrice($val->discount_amount*$val->quantity)}<br />{$val->discount_info}<!--@else-->0<!--@endif--></td>
+<td class="item_price"><strong>{svitemItem::printPrice($val->discounted_price*$val->quantity)}</strong></td>
+
+v 0.3.0
+27th, Mar 2016
+1. 구매에 적용된 할인 체계 정리
+./schemas/svcart.xml에서 아래의 코드를
+<column name="discount_info" type="varchar" size="250" />
+<column name="conditional_promotion" type="varchar" size="50" />
+아래와 같이 변경
+<column name="discount_info" type="text"/>
+<column name="conditional_promotion" type="text"/>
+
+./schemas/svcart_order.xml에서 아래의 코드를
+<column name="promotion_info" type="text" />
+아래와 같이 변경
+<column name="checkout_promotion_info" type="text" />
+
+./queries/insertOrder.xml에서 아래의 코드를
+<column name="promotion_info" var="promotion_info" />
+아래의 코드로 변경
+<column name="checkout_promotion_info" var="promotion_info" />
+
+./svcart.controller.php::addItems()에서 아래의 코드를
+$args->discount_info = $in_args->discount_info;
+$args->conditional_promotion = $in_args->conditional_promotion;
+아래와 같이 변경
+$args->discount_info = serialize( $in_args->discount_info );
+$args->conditional_promotion = serialize( $in_args->conditional_promotion );
+
+./svcart.controller.php::triggerProcessReview()에서 아래의 코드를
+$in_args->cart->total_discount_amount = $nDiscAmnt;
+$in_args->cart->promotion_info = $output->get('promotion_info');
+아래와 같이 변경
+$in_args->cart->total_discount_amount = $nDiscAmnt;
+$oCheckoutPromotionInfo = new stdClass();
+$oCheckoutPromotionInfo->version = '1.0';
+$oCheckoutPromotionInfo->promotion[0]->type = 'coupon';
+$oCheckoutPromotionInfo->promotion[0]->total_disc_amnt = $nDiscAmnt;
+$oCheckoutPromotionInfo->promotion[0]->title = $output->get('promotion_info');
+$in_args->cart->promotion_info = $oCheckoutPromotionInfo;
+
+./svcart.controller.php::insertOrder()에서 아래의 코드를
+$in_args->promotion_info = $in_args->cart->promotion_info;
+아래와 같이 변경
+$in_args->promotion_info = serialize( $in_args->cart->promotion_info );
+
+v 0.3.1
+29th, Mar 2016
+1. svitem과 svcart MECE 강화
+./svcart.controller.php::createCartObj() 추가
+
+2. cart 정보 갱신하기 전에 discount_info의 내용을 svpromotion 모듈에서 가져옴
+./svcart.controller.php::updateCartItems()에 아래의 코드 블록 추가
+$oSvpromotionModel = &getModel('svpromotion');
+$output = $oSvpromotionModel->getItemPriceDetail( $val );
+if( !$output->toBool() )
+	return $output;
+$oDiscountInfo->version = '1.0';
+$oDiscountInfo->promotion[0]->type = 'item_policy';
+$oDiscountInfo->promotion[0]->unit_disc_amnt = $output->discount_amount;
+$oDiscountInfo->promotion[0]->title = $output->discount_info;
+if( $oDiscountInfo->promotion[0]->unit_disc_amnt > 0 )
+{
+	$args->discount_info = serialize( $oDiscountInfo );
+}
+./svcart.controller.php::triggerProcessReview()에 아래의 코드를
+$output = $oSvpromotionModel->getItemPriceCheckout( $in_args );
+아래와 같이 변경
+$output = $oSvpromotionModel->getCheckoutPrice( $in_args );
+
+./svcart.view.php::dispSvcartOrderComplete()에서 아래의 코드 블록 추가
+$oCheckoutPromotionInfo = unserialize( $order_info->checkout_promotion_info );
+$nCheckoutPromoIdx = 0;
+foreach( $oCheckoutPromotionInfo->promotion as $ccpromokey => $ccpromoval )
+{
+	$aCheckoutPromotionInfo[$nCheckoutPromoIdx]->title = $ccpromoval->title;
+	$aCheckoutPromotionInfo[$nCheckoutPromoIdx++]->total_disc_amnt = $ccpromoval->total_disc_amnt;
+}
+$order_info->checkout_promotion_info = $aCheckoutPromotionInfo;
+
+foreach($order_info->item_list as $key=>&$val)
+{
+	$aDiscountInfo = Array();
+	$oDiscountInfo = unserialize( $val->discount_info );
+	$nPromotionIdx = 0;
+
+	foreach( $oDiscountInfo->promotion as $key2 => $val2 )
+	{
+		$aDiscountInfo[$nPromotionIdx]->title = $val2->title;
+		$aDiscountInfo[$nPromotionIdx++]->unit_disc_amnt = $val2->unit_disc_amnt;
+	}
+	$oConditionalDiscountInfo = unserialize( $item->conditional_promotion );
+	foreach( $oConditionalDiscountInfo->promotion as $key2 => $val2 )
+	{
+		$aDiscountInfo[$nPromotionIdx]->title = $val2->title;
+		$aDiscountInfo[$nPromotionIdx++]->unit_disc_amnt = $val2->resultant_disc_amnt;
+	}
+	$order_info->item_list[$key]->discount_info = $aDiscountInfo;
+}
+
+./skins/Trendshop/ordercomplete.html에서 아래의 코드를
+<td><!--@if($val->discount_amount)-->{svitemItem::printPrice($val->discount_amount*$val->quantity)}<br />{$val->discount_info}<!--@else-->0<!--@endif--></td>
+아래와 같이 변경
+<td>
+<!--@if($val->discount_amount)-->{svitemItem::printPrice($val->discount_amount*$val->quantity)}<br />
+<block loop="$val->discount_info=>$promotionkey,$promotionval">
+{$promotionval->title}<BR>
+</block><!--@else-->0<!--@endif-->
+</td>
+
+v 0.3.2
+2nd, Apr 2016
+1. svpromotion의 메소드 변경에 따라서 호출 변경
+./svcart.controller.php::createCartObj() 에서 아래의 코드를
+// 아이템별 부가 할인 정책 가져오기
+if( $val->fb_liked == 1 )
+{
+	$oConditionalPromotion = $oSvpromotionModel->getItemConditionalPromotionDetail($item_info);
+	if( $oConditionalPromotion->fb_like_additional_discount_amount > 0 )
+	{
+		//$item_info->discount_info = $item_info->discount_info.' '.$oConditionalPromotion->fb_like_additional_discount_info;
+		$item_info->discount_amount = $oConditionalPromotion->fb_like_additional_discount_amount;
+		$item_info->discounted_price = ($item_info->price - $oConditionalPromotion->fb_like_additional_discount_amount)*$val->quantity;
+		//$item_info->discount_amount = $item_info->discount_amount + $oConditionalPromotion->fb_like_additional_discount_amount;
+		//$item_info->discounted_price = $item_info->discounted_price - ($val->quantity * $oConditionalPromotion->fb_like_additional_discount_amount);
+		
+		$oConditionalPromotionInfo->version = '1.0';
+		$oConditionalPromotionInfo->promotion[0]->type = 'fblike';
+		$oConditionalPromotionInfo->promotion[0]->resultant_disc_amnt = $oConditionalPromotion->fb_like_additional_discount_amount;
+		$oConditionalPromotionInfo->promotion[0]->title = $oConditionalPromotion->fb_like_additional_discount_info;
+		$args->conditional_promotion = $oConditionalPromotionInfo;
+		//$args->conditional_promotion = 'fblike';
+	}
+}
+아래와 같이 변경
+if( $val->fb_liked == 1 )
+{
+	$oConditionalPromotion = $oSvpromotionModel->getItemConditionalPromotionDetail($item_info);
+	if( $oConditionalPromotion->conditional_additional_discount_amount > 0 )
+	{
+		//$item_info->discount_info = $item_info->discount_info.' '.$oConditionalPromotion->conditional_additional_discount_info;
+		$item_info->discount_amount = $oConditionalPromotion->conditional_additional_discount_amount;
+		$item_info->discounted_price = ($item_info->price - $oConditionalPromotion->conditional_additional_discount_amount)*$val->quantity;
+		//$item_info->discount_amount = $item_info->discount_amount + $oConditionalPromotion->conditional_additional_discount_amount;
+		//$item_info->discounted_price = $item_info->discounted_price - ($val->quantity * $oConditionalPromotion->conditional_additional_discount_amount);
+		
+		$oConditionalPromotionInfo->version = '1.0';
+		$oConditionalPromotionInfo->promotion[0]->type = 'fblike';
+		$oConditionalPromotionInfo->promotion[0]->resultant_disc_amnt = $oConditionalPromotion->conditional_additional_discount_amount;
+		$oConditionalPromotionInfo->promotion[0]->title = $oConditionalPromotion->conditional_additional_discount_info;
+	}
+}
+
+./svcart.controller.php::createCartObj() 에 아래의 코드 블록 추가
+if( $val->fb_shared == 1 )
+{
+	$oConditionalPromotion = $oSvpromotionModel->getItemConditionalPromotionDetail($item_info, 'fbshare' );
+	if( $oConditionalPromotion->conditional_additional_discount_amount > 0 && 
+		$oConditionalPromotionInfo->promotion[0]->resultant_disc_amnt < $oConditionalPromotion->conditional_additional_discount_amount )
+	{
+		$item_info->discount_amount = $oConditionalPromotion->conditional_additional_discount_amount;
+		$item_info->discounted_price = ($item_info->price - $oConditionalPromotion->conditional_additional_discount_amount)*$val->quantity;
+		
+		$oConditionalPromotionInfo->version = '1.0';
+		$oConditionalPromotionInfo->promotion[0]->type = 'fbshare';
+		$oConditionalPromotionInfo->promotion[0]->resultant_disc_amnt = $oConditionalPromotion->conditional_additional_discount_amount;
+		$oConditionalPromotionInfo->promotion[0]->title = $oConditionalPromotion->conditional_additional_discount_info;
+		$args->conditional_promotion = $oConditionalPromotionInfo;
+	}
+}
+
+v 0.3.3
+16th, May 2016
+1. 장바구니, 바로구매 버튼 누를 때 재고부족하면 처리 거부 루틴; svitem v 0.4.7 변경에 대응
+./svcart.controller.php::createCartObj()에서 아래의 코드를 
+return $cart_srl_arr;
+아래와 같이 변경
+$retobj = new Object();
+$retobj->add('cart_srl_arr', $cart_srl_arr);
+return $retobj;
+
+2. svitemModel의 재고 확인 메소드 활용
+./svcart.view.php::dispSvcartOrderItems()에서 아래의 코드를
+if($stock[$val->item_srl] !== 0) 
+	$stock[$val->item_srl] = $oSvitemModel->getItemExtraVarValue($val->item_srl, 'stock');
+아래와 같이 변경
+if($stock[$val->item_srl] !== 0) 
+	$stock[$val->item_srl] = $oSvitemModel->getItemStock($val->item_srl);
+
+./svcart.controller.php::createCartObj()에서 아래의 코드를 
+$stock = $oSvitemModel->getItemExtraVarValue($item_info->item_srl, 'stock');
+아래와 같이 변경
+$stock = $oSvitemModel->getItemStock($item_info->item_srl);
+
+./svcart.controller.php::triggerProcessPayment()에서 아래의 코드를 
+$stock = $oSvitemModel->getItemExtraVarValue($val->item_srl, 'stock');
+아래와 같이 변경
+$stock = $oSvitemModel->getItemStock($val->item_srl);
+
+3. svitemController의 재고 변경 메소드 활용
+./svcart.controller.php::triggerProcessPayment()에서 아래의 코드를 
+$output = $oSvitemController->updateExtraVars($val->item_srl, 'stock', $stock);
+아래와 같이 변경
+$output = $oSvitemController->setItemStock($val->item_srl, $stock);
+
+v 0.3.4
+18th, May 2016
+1. 재고 없음 처리 루틴 오류 개선
+./svcart.controller.php::createCartObj()에서 아래의 코드를 
+if( $stock != null && ($stock < $args->quantity || $stock == 0) )
+	return new Object(-1, sprintf( Context::getLang( 'msg_not_enough_stock'), $item_info->item_name ));
+아래와 같이 개선
+if( $stock !== null && ($stock < $args->quantity || $stock == 0) )
+	return new Object(-1, sprintf( Context::getLang( 'msg_not_enough_stock'), $item_info->item_name ));
+
+v 0.3.5
+25th, May 2016
+svcart.view.php::dispSvcartOrderComplete()에 아래의 코드 추가
+$oSvorderController = &getController('svorder');
+$oSvorderController->transmitOrderInfo( $order_srl );
+
+v 0.3.6
+30th, May 2016
+svcart.view.php::dispSvcartOrderComplete()에 아래의 코드를
+$oSvorderController->transmitOrderInfo( $order_srl );
+아래와 같이 변경
+$oSvorderController->transmitOrderInfoExt( $order_srl );
+
+v 0.3.7
+20th, Jun 2016
+
+1. GA EEC 코드 적용
+svcart.model.php::getCartInfo()에 아래의 코드를 추가
+$oSvitemModel = &getModel('svitem');
+foreach( $cart_info->item_list as $key=>$val )
+{
+	$oItemInfo = $oSvitemModel->getItemInfo( $val->item_srl );
+	$cart_info->item_list[$key]->enhanced_item_info = $oItemInfo->enhanced_item_info;
+}
+
+./skins/Trendshop/cartitems.html에서 아래의 코드를 제거
+{@
+$aItemName = explode( '_', $val->item_name );
+$sBrandName = $aItemName[0];
+$sVariant = $aItemName[1];
+}
+
+./skins/Trendshop/cartitems.html에서 아래의 코드를
+gatkCart.queueItemInfo( '{$val->cart_srl}', '{$val->item_srl}', '{$sBrandName}', '{$sBrandName}', '{$sBrandName}', '{$sVariant}', '{$val->price}', '{$val->quantity}', '' );
+아래와 같이 변경
+gatkCart.queueItemInfo( '{$val->cart_srl}', '{$val->item_srl}', '{$val->item_name}', '{$val->enhanced_item_info->ga_category_name}', '{$val->enhanced_item_info->ga_brand_name}', '{$val->enhanced_item_info->ga_variation_name}', '{$val->price}', '{$val->quantity}', '' );
+
+./skins/Trendshop/orderitems.html에서 아래의 코드를 제거
+{@
+$aItemName = explode( '_', $val->item_name );
+$sBrandName = $aItemName[0];
+$sVariant = $aItemName[1];
+}
+
+./skins/Trendshop/orderitems.html에서 아래의 코드를
+gatkSettlement.queueItemInfo( '{$val->item_srl}', '{$sBrandName}', '{$sBrandName}', '{$sBrandName}', '{$sVariant}', '{$val->sum_discounted_price}', '{$val->quantity}' );
+아래와 같이 변경
+gatkSettlement.queueItemInfo( '{$val->item_srl}', '{$val->item_name}', '{$val->enhanced_item_info->ga_category_name}', '{$val->enhanced_item_info->ga_brand_name}', '{$val->enhanced_item_info->ga_variation_name}', '{$val->sum_discounted_price}', '{$val->quantity}' );
+
+./skins/Trendshop/ordercomplete.html에서 아래의 코드를 제거
+{@
+$aItemName = explode( '_', $val->item_name );
+$sBrandName = $aItemName[0];
+$sVariant = $aItemName[1];
+}
+
+./skins/Trendshop/ordercomplete.html에서 아래의 코드를
+gatkPurchase.queueItemInfo( '{$val->item_srl}', '{$sBrandName}', '{$sBrandName}', '{$sBrandName}', '{$sVariant}', '{$val->price}', '{$val->quantity}', '' );
+아래와 같이 변경
+gatkPurchase.queueItemInfo( '{$val->item_srl}', '{$val->item_name}', '{$val->enhanced_item_info->ga_category_name}', '{$val->enhanced_item_info->ga_brand_name}', '{$val->enhanced_item_info->ga_variation_name}', '{$val->price}', '{$val->quantity}', '' );
+
+./m.skins/trendshop/cartitems.html에서 아래의 코드를 제거
+{@
+$aItemName = explode( '_', $val->item_name );
+$sBrandName = $aItemName[0];
+$sVariant = $aItemName[1];
+}
+
+./m.skins/trendshop/cartitems.html에서 아래의 코드를
+gatkCart.queueItemInfo( '{$val->cart_srl}', '{$val->item_srl}', '{$sBrandName}', '{$sBrandName}', '{$sBrandName}', '{$sVariant}', '{$val->price}', '{$val->quantity}', '' );
+아래와 같이 변경
+gatkCart.queueItemInfo( '{$val->cart_srl}', '{$val->item_srl}', '{$val->item_name}', '{$val->enhanced_item_info->ga_category_name}', '{$val->enhanced_item_info->ga_brand_name}', '{$val->enhanced_item_info->ga_variation_name}', '{$val->price}', '{$val->quantity}', '' );
+
+./m.skins/trendshop/orderitems.html에서 아래의 코드를 제거
+{@
+$aItemName = explode( '_', $val->item_name );
+$sBrandName = $aItemName[0];
+$sVariant = $aItemName[1];
+}
+
+./m.skins/trendshop/orderitems.html에서 아래의 코드를
+gatkSettlement.queueItemInfo( '{$val->item_srl}', '{$sBrandName}', '{$sBrandName}', '{$sBrandName}', '{$sVariant}', '{$val->sum_discounted_price}', '{$val->quantity}' );
+아래와 같이 변경
+gatkSettlement.queueItemInfo( '{$val->item_srl}', '{$val->item_name}', '{$val->enhanced_item_info->ga_category_name}', '{$val->enhanced_item_info->ga_brand_name}', '{$val->enhanced_item_info->ga_variation_name}', '{$val->sum_discounted_price}', '{$val->quantity}' );
+
+./m.skins/trendshop/ordercomplete.html에서 아래의 코드를 제거
+{@
+$aItemName = explode( '_', $val->item_name );
+$sBrandName = $aItemName[0];
+$sVariant = $aItemName[1];
+}
+
+./m.skins/trendshop/ordercomplete.html에서 아래의 코드를
+gatkPurchase.queueItemInfo( '{$val->item_srl}', '{$sBrandName}', '{$sBrandName}', '{$sBrandName}', '{$sVariant}', '{$val->price}', '{$val->quantity}', '' );
+아래와 같이 변경
+gatkPurchase.queueItemInfo( '{$val->item_srl}', '{$val->item_name}', '{$val->enhanced_item_info->ga_category_name}', '{$val->enhanced_item_info->ga_brand_name}', '{$val->enhanced_item_info->ga_variation_name}', '{$val->price}', '{$val->quantity}', '' );
+
+svcart.view.php::dispSvcartOrderComplete()에 아래의 코드를 추가
+$oSvitemModel = &getModel('svitem');
+$oItemInfo = $oSvitemModel->getItemInfo( $val->item_srl );
+$order_info->item_list[$key]->enhanced_item_info = $oItemInfo->enhanced_item_info;
+
+v 0.3.8
+2nd, Jul 2016
+1. 무조건 증정품 기능 추가 
+svcart.controller.php::createCartObj()에 아래의 코드를 추가
+$oConditionalPromotion = $oSvpromotionModel->getItemConditionalPromotionDetail($item_info, 'giveaway' );
+
+2. 알림메일 발송 기능 추가
+svcart.view.php::dispSvcartOrderComplete()에 아래의 코드를 추가
+$oSvorderController->sendAlarmMail( $order_srl );
+
+v 0.3.9
+13th, Jan 2017
+1. 위시리스트 페이지 오류 제거
+./skins/Trendshop/favoriteitems.html에서 아래의 코드를
+nproductItem::
+아래와 같이 변경
+svitemItem::
+
+v 0.4.0
+19th, Feb 2017
+1. svcart.controller.php::updateSalesCount() 제거
+./queries/updateSalesCount.xml 제거
+
+v 0.4.1
+15th, Mar 2017
+1. svcart.controller.php::triggerProcessReview()에서 아래의 코드 추가
+$oCheckoutPromotionInfo->promotion[0]->coupon_srl = $output->get('coupon_srl');
+
+2. 장바구니 로그 확인 스킨 오류 수정
+./tpl/orderdetail.html에서 
+nproductItem::를 svitemItem::으로 변경
+
+3. svcart.view.php::keygen() 비활성화
+
+4. svcart.view.php::dispSvcartFavoriteItems()에서 아래의 코드를 비활성화
+$oFileModel = &getModel('file');
+
+5. svcart.view.php::dispSvcartOrderDetail()를 비활성화
+
+6. svcart.view.php::dispSvcartOrderComplete()에서 아래의 코드를 비활성화
+$logged_info = Context::get('logged_info');
+
+6. svcart.view.php::dispSvcartNonOrderList()에서 아래의 코드를 비활성화
+$logged_info = Context::get('logged_info');
+
+7. svcart.class.php::moduleUpdate()를 비활성화
+
+8. svcart.class.php::recompileCache()를 비활성화
+
+9. svcart.class.php::checkUpdate()에서 아래의 코드 제거
+if(!$oDB->isColumnExists('svcart', 'document_srl')) 
+	return TRUE;
+if(!$oDB->isColumnExists('svcart', 'file_srl')) 
+	return TRUE;
+if(!$oDB->isColumnExists('svcart', 'item_code')) 
+	return TRUE; 
+if(!$oDB->isColumnExists('svcart_orderform_fieldsets', 'proc_modules')) 
+	return TRUE; 
+
+10. svcart.class.php::installTriggers()를 제거하고 코드 블록을 moduleInstall()로 이동
+
+11. svcart.class.php::mergeKeywords()를 비활성화
+
+12. svcart.controller.php::keygen()를 비활성화
+
+13. svcart.controller.php::triggerProcessPayment()에서 아래의 코드를 비활성화
+$logged_info = Context::get('logged_info');
+
+14. svcart.controller.php::updateOrderStatus()에서 아래의 코드를 비활성화
+$oSvcartModel = &getModel('svcart');
+$config = $oSvcartModel->getModuleConfig();
+
+15. svcart.controller.php::triggerProcessPayment()에서 아래의 코드를 비활성화
+$config = $oSvcartModel->getModuleConfig();
+
+16. svcart.model.php::getKey()를 비활성화
+
+17. svcart.model.php::checkBrowser()를 isIPhone 변경하고 아래의 코드를
+if($browser_name == "iPhone" || $browser_name == "iPad")
+	setCookie('check_browser', "true");
+else
+	setCookie('check_browser','false');
+
+아래와 같이 변경
+if($browser_name == "iPhone" || $browser_name == "iPad")
+	return true;
+else
+	return false;
+
+18. svcart.view.php::dispSvcartAddressList()에서 아래의 코드를
+$oSvcartModel->checkBrowser(); // iphone check
+아래와 같이 변경
+$bIphone = $oSvcartModel->isIPhone(); // iphone check
+if( $bIphone )
+	Context::set('is_i_phone', true);
+else
+	Context::set('is_i_phone', false);
+
+19. svcart.model.php::getModInstList()를 비활성화
+
+v 0.4.2
+20th, Mar 2017
+1. 결제 완료 페이지에서 $order_srl이 유효하지 않으면 예외 처리 추가
+./svcart.view.php::dispSvcartOrderComplete()에 아래의 코드 추가
+if (!$order_info) 
+	return new Object(-1, 'msg_invalid_request');
+
+v 0.4.3
+27th, Mar 2017
+1.  svcart.model.php::getModInstList()를 재활성화
+svitem.admin.view.php에서 호출
+
+v 0.4.4
+9th, Apr 2017
+1. 불필요 메소드 비활성화
+svcart.model.php::getReviewCount()를 비활성화
+svcart.model.php::getReviews()를 비활성화
+
+v 0.4.5
+30th, Apr 2017
+1. 불필요 메소드 비활성화
+svcart.controller.php::updateReviewCount()를 비활성화
+svcart.controller.php::moveNodeToNext()를 비활성화
+svcart.controller.php::moveNodeToPrev()를 비활성화
+svcart.controller.php::moveNode()를 비활성화
+svcart.controller.php::procSvcartMoveCategory()를 비활성화
+svcart.controller.php::getArrCommaSrls()를 비활성화
+svcart.model.php::getNodeRouteLength()를 비활성화
+svcart.model.php::getNodeRoute()를 비활성화
+./tpl/filter/update_category.xml 비활성화
+./tpl/filter/delete_category.xml 비활성화
+./tpl/filter/insert_category.xml 비활성화
+./tpl/filter/update_display_category.xml 비활성화
+./tpl/js/_lib 비활성화
+./tpl/js/themes 비활성화
+./tpl/js/category.js 비활성화
+./tpl/js/display_category.js 비활성화
+./tpl/js/displaycategories.js 비활성화
+./tpl/js/jquery.jstree.js 비활성화
+
+v 0.4.6
+13th, May 2017
+1. smart_xpay plugin에서 PG 화면 완료 후 &mid= 가 적절히 입력되지 않아서 PG 플러그인 에러나고 모바일 결제 완료 화면이 표시되지 않음
+svcart.controller.php::triggerProcessPayment()에서 아래의 코드를
+$mid = $_SESSION['CART_MID'];
+아래와 같이 변경
+$mid = $obj->xe_mid;
+
+v 0.4.7
+14th, May 2017
+order 기능을 분리하여 svorder로 이전하고
+svpg 관련 기능을 분리하여 svorder로 이전
+불필요 메소드 제거
+
+v 0.4.8
+20th, May 2017
+1. svcart에서 svorder 관련 기능 제거
+svcart.controller.php::triggerProcessReview() 제거
+svcart.controller.php::_insertOrder() 제거
+svcart.controller.php::reviewCart() 추가
+
+svcart.view.php::dispSvcartOrderComplete() 제거
+svcart.view.php::_getOrderStatus() 제거
+
+svcart.model.php::getGroupDiscount() 제거
+svcart.model.php::getDiscount() 제거
+
+svcart.controller.php::triggerProcessPayment() 제거
+svcart.controller.php::confirmCart() 추가
+
+svcart.view.php::dispSvcartCartItems()에 아래의 코드 추가
+$mid = Context::get('mid');
+$oModuleModel = getModel('module');
+$oSvcartConfig = $oModuleModel->getModuleInfoByMid($mid);
+$nSvorderModuleSrl = (int)$oSvcartConfig->svorder_module_srl;
+if( !$nSvorderModuleSrl )
+	return new Object(-1, 'please configure svorder in advance!');
+
+$oSvorderConfig = $oModuleModel->getModuleInfoByModuleSrl($nSvorderModuleSrl);
+$sSvorderMid = $oSvorderConfig->mid;
+if( strlen( $sSvorderMid ) == 0 )
+	return new Object(-1, 'please configure svorder in advance!');
+Context::set('svorder_mid',$sSvorderMid);
+
+./tpl/skin.js/script.js::progressOrderItems() 제거
+./tpl/skin.js/cartitems.js::progressOrderItems() 추가
+
+svcart.model.php::getOrderInfo() 제거
+
+svcart.controller.php::updateOrderStatus() 제거
+
+svcart.model.php::getOrderTitle() 제거
+svcart.model.php::getSvcartCouponValidation() 제거
+
+v 0.4.9
+22nd, May 2017
+1. 무의미한 trigger 메소드 제거
+svcart.model.php::triggerTransactionList() 제거
+
+v 0.5.0
+28th, May 2017
+1. 적립금 관련 기능을 svpromotion으로 이동
+./tpl/config.html에서 아래의 코드 제거
+<div class="x_control-group">
+	<label class="x_control-label" for="mileage_percent">{$lang->transaction_mileage}</label>
+	<div class="x_controls">
+		<input type="text" name="mileage_percent" value="{$config->mileage_percent}"  class="inputTypeText w400" />
+		<a href="#mileage_percent_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+		<p id="mileage_percent_help" class="x_help-block" hidden>{$lang->about_transaction_mileage}</p>
+	</div>
+</div>
+
+v 0.5.1
+11th, Jun 2017
+1. svitem_item tbl::proc_module 제거에 대응
+./queries/insertCartItem.xml에서 아래의 코드 제거
+<column name="module" var="module" notnull="notnull" />
+
+svcart.controller.php::createCartObj()에서 아래의 코드 제거
+$args->module = $item_info->proc_module;
+
+./schemas/svcart.xml에서 아래의 코드 제거
+<column name="module" type="varchar" size="250" index="idx_module" />
+
+2. svcart_order 테이블 제거
+./schemas/svcart_order.xml 제거
+
+3. promotion 관련 기능을 svpromotio으로 이전
+svcart.controller.php::createCartObj()에서 아래의 코드 제거
+
+$oDiscountInfo = new stdClass();
+$oConditionalPromotionInfo = new stdClass();
+
+$output = $oSvpromotionModel->getItemPriceDetail( $item_info );
+if( !$output->toBool() )
+	return $output;
+
+$oDiscountInfo->version = '1.0';
+$oDiscountInfo->promotion[0]->type = 'item_policy';
+$oDiscountInfo->promotion[0]->unit_disc_amnt = $output->discount_amount;
+$oDiscountInfo->promotion[0]->title = $output->discount_info;
+
+if( $oDiscountInfo->promotion[0]->unit_disc_amnt > 0 )
+	$item_info->discount_info = $oDiscountInfo;
+else
+	$item_info->discount_info = null;
+$item_info->discount_amount = $output->discount_amount;
+$item_info->discounted_price = $output->discounted_price;
+
+$nPromoIdx = 0;
+
+// 아이템별 fb like 할인 정책 가져오기
+if( $val->fb_liked == 1 )
+{
+	$oConditionalPromotion = $oSvpromotionModel->getItemConditionalPromotionDetail($item_info, 'fblike' );
+	if( $oConditionalPromotion->conditional_additional_discount_amount > 0 )
+	{
+		$item_info->discount_amount = $oConditionalPromotion->conditional_additional_discount_amount;
+		$item_info->discounted_price = ($item_info->price - $oConditionalPromotion->conditional_additional_discount_amount)*$val->quantity;
+		
+		$oConditionalPromotionInfo->version = '1.0';
+		$oConditionalPromotionInfo->promotion[$nPromoIdx]->type = 'fblike';
+		$oConditionalPromotionInfo->promotion[$nPromoIdx]->resultant_disc_amnt = $oConditionalPromotion->conditional_additional_discount_amount;
+		$oConditionalPromotionInfo->promotion[$nPromoIdx++]->title = $oConditionalPromotion->conditional_additional_discount_info;
+		$args->conditional_promotion = $oConditionalPromotionInfo;
+	}
+}
+// 아이템별 fb share 할인 정책 가져오기
+if( $val->fb_shared == 1 )
+{
+	$oConditionalPromotion = $oSvpromotionModel->getItemConditionalPromotionDetail($item_info, 'fbshare' );
+	if( $oConditionalPromotion->conditional_additional_discount_amount > 0 && 
+		$oConditionalPromotionInfo->promotion[0]->resultant_disc_amnt < $oConditionalPromotion->conditional_additional_discount_amount )
+	{
+		$item_info->discount_amount = $oConditionalPromotion->conditional_additional_discount_amount;
+		$item_info->discounted_price = ($item_info->price - $oConditionalPromotion->conditional_additional_discount_amount)*$val->quantity;
+		
+		$oConditionalPromotionInfo->version = '1.0';
+		$oConditionalPromotionInfo->promotion[$nPromoIdx]->type = 'fbshare';
+		$oConditionalPromotionInfo->promotion[$nPromoIdx]->resultant_disc_amnt = $oConditionalPromotion->conditional_additional_discount_amount;
+		$oConditionalPromotionInfo->promotion[$nPromoIdx++]->title = $oConditionalPromotion->conditional_additional_discount_info;
+		$args->conditional_promotion = $oConditionalPromotionInfo;
+	}
+}
+
+$oConditionalPromotion = $oSvpromotionModel->getItemConditionalPromotionDetail($item_info, 'giveaway' );
+if( $oConditionalPromotion->conditional_additional_discount_giveaway_item_srl > 0 )
+{
+	$oConditionalPromotionInfo->version = '1.0';
+	$oConditionalPromotionInfo->promotion[$nPromoIdx]->type = 'giveaway';
+	$oConditionalPromotionInfo->promotion[$nPromoIdx]->giveaway_item_srl = $oConditionalPromotion->conditional_additional_discount_giveaway_item_srl;
+	$oConditionalPromotionInfo->promotion[$nPromoIdx]->resultant_giveaway_qty =  $oConditionalPromotion->conditional_additional_discount_giveaway_item_qty*$val->quantity;
+	$oConditionalPromotionInfo->promotion[$nPromoIdx++]->title = $oConditionalPromotion->conditional_additional_discount_info;
+	$args->conditional_promotion = $oConditionalPromotionInfo;
+}
+
+v 0.5.2
+17th, Jun 2017
+1. 미사용 코드 제거
+./tpl/js/script.js 제거
+
+./svitem.model.php::getMileage() 제거
+
+./svitem.model.php::getSvcartCartItems()에서 아래의 코드 제거
+$mileage = 0;
+$logged_info = Context::get('logged_info');
+if ($logged_info) $mileage = $this->getMileage($logged_info->member_srl);
+$this->add('mileage', $mileage);
+
+./svitem.model.php::getSvcartFavoriteItems()에서 아래의 코드 제거
+$mileage = $this->getMileage($member_srl);
+$this->add('mileage', $mileage);
+
+svcart.admin.model.php::getSvcartAdminOrderDetails() 제거
+
+2. 미완료 장바구니 목록 보기 개선
+./svitem.admin.view.php::dispSvcartAdminCartManagement() 코드 변경
+./tpl/cart_management.html 변경
+./queries/getCartList.xml 추가
+
+./svitem.admin.view.php::dispSvcartAdminCartDetail()에서 아래의 코드를
+$order_info = $oSvcartModel->getOrderInfo($order_srl);
+아래와 같이 변경
+$oOrderInfo = $oSvcartModel->getCartItem($nCartSrl);
+
+3. svpg 의존성 해제
+./svitem.admin.view.php::dispSvcartAdminInsertModInst()에서 아래의 코드 제거
+$oSvpgModel = &getModel('svpg');
+$oSvPgModules = $oSvpgModel->getSvpgList();
+Context::set('svpg_modules', $oSvPgModules);
+
+./ruleset/insertModInst.xml에서 아래의 코드 제거
+<field name="svpg_module_srl" required="true" rule="number"/>
+
+./tpl/insertModInst.html에서 아래의 코드 제거
+<div class="x_control-group">
+	<label class="x_control-label" for="">{$lang->payment_module}</label>
+	<div class="x_controls">
+		<select name="svpg_module_srl">
+			<option value='' selected="selected"|cond="!$module_info->svpg_module_srl" >{$lang->cmd_select}</option>
+			<option loop="$svpg_modules=>$key,$val" value="{$val->module_srl}" selected="selected"|cond="$module_info->svpg_module_srl==$val->module_srl" >{$val->browser_title}</option>
+		</select>
+		<a href="#svpg_module_srl_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+		<p id="svpg_module_srl_help" class="x_help-block" hidden>{$lang->about_payment_module}<a href="{getUrl('','module','admin','act','dispSvpgAdminSvpgList')}" target="_blank">{$lang->payment_module_management}</a></p>
+	</div>
+</div>
+
+v 0.5.3
+19th, Jun 2017
+1. svitem의 장바구니 담은 후 장바구니 화면 이동 기능을 흡수
+<div class="x_control-group">
+	<label class="x_control-label" for="check_cart">{$lang->check_cart}</label>
+	<div class="x_controls">
+		<select name="check_cart" id="check_cart">
+			<option value="N" selected="selected"|cond="$module_info->check_cart=='N'">{$lang->not_goto_cart}</option>
+			<option value="Y" selected="selected"|cond="$module_info->check_cart=='Y'">{$lang->confirm_after_putting}</option>
+		</select>
+		<a href="#check_cart_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+		<p id="check_cart_help" class="x_help-block" hidden>{$lang->about_check_cart}</p>
+	</div>
+</div>
+
+2. 배송비 관련 설정을 svorder로 이전
+./tpl/config.html에서 아래의 코드 제거
+<div class="x_control-group">
+	<label class="x_control-label" for="">{$lang->shipping_fee_payment_type}</label>
+	<div class="x_controls">
+		<select name="shipping_fee_payment_type">
+			<option value="postpaid" selected="selected"|cond="$config->shipping_fee_payment_type == '' || $config->shipping_fee_payment_type == 'postpaid'">{$lang->shipping_cost_postpaid}</option>
+			<option value="prepaid" selected="selected"|cond="$config->shipping_fee_payment_type == 'prepaid'">{$lang->shipping_cost_prepaid}</option>				
+			<option value="buyer_define" selected="selected"|cond="$config->shipping_fee_payment_type == 'buyer_define'">{$lang->shipping_cost_buyer_define}</option>
+		</select>
+		<a href="#shipping_fee_payment_type_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+		<p id="shipping_fee_payment_type_help" class="x_help-block" hidden>{$lang->about_shipping_fee_payment_type}</p>
+	</div>
+</div>
+<div class="x_control-group">
+	<label class="x_control-label" for="delivery_fee">{$lang->delivery_fee}</label>
+	<div class="x_controls">
+		<input type="text" name="delivery_fee" value="{$config->delivery_fee}" />
+		<a href="#delivery_fee_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+		<p id="delivery_fee_help" class="x_help-block" hidden>{$lang->about_delivery_fee}</p>
+	</div>
+</div>
+<div class="x_control-group">
+	<label class="x_control-label" for="freedeliv_amount">{$lang->amount_for_free_delivery}</label>
+	<div class="x_controls">
+		<input type="text" name="freedeliv_amount" value="{$config->freedeliv_amount}" />
+		<a href="#freedeliv_amount" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+		<p id="freedeliv_amount" class="x_help-block" hidden>{$lang->about_free_delivery}</p>
+	</div>
+</div>
+<div class="x_control-group">
+	<label class="x_control-label" for="guest_buy">{$lang->guest_buy}</label>
+	<div class="x_controls">
+		<select name="guest_buy">
+			<option value="N" selected="selected"|cond="$config->guest_buy == 'N'">{$lang->notuse}</option>
+			<option value="Y" selected="selected"|cond="$config->guest_buy == 'Y'">{$lang->use}</option>
+	    </select>
+		<a href="#guest_buy_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+		<p id="guest_buy_help" class="x_help-block" hidden>{$lang->about_guest_buy}</p>
+	</div>
+</div>
+
+v 0.5.4
+14th, Oct 2017
+1. orderform_fieldsets 관련 코드 제거
+./svcart.model.php::getFieldSetList() 제거
+./svcart.model.php::getInputHtml() 제거
+./schemas/svcart_orderform_fieldsets.xml 제거
+./schemas/svcart_orderform_fields.xml 제거
+./queries/getFieldsetList.xml 제거
+./queries/getFieldList.xml 제거
+./svcart.model.php::getExtraVars() 제거
+
+./svcart.model.php::getOrderFormInputHtml() 제거
+./svcart.model.php::getCombineOrderForm() 제거
+./svcart.model.php::getOrderFormList() 제거
+
+./svcart.model.php::getPurchasedItem() 제거
+./queries/getPurchasedItem.xml 제거
+
+./svcart.model.php::getCombineItemExtras() 제거
+
+./svcart.model.php::getListConfig() 제거
+./svcart.model.php::getDefaultListConfig() 제거
+
+./svcart.admin.controller.php::procSvcartAdminInsertField() 제거
+./svcart.admin.controller.php::_createInsertAddressRuleset() 제거
+./queries/updateField.xml 제거
+./queries/insertField.xml 제거
+
+./svcart.admin.controller.php::procSvcartAdminDeleteField() 제거
+./queries/deleteField.xml 제거
+
+./svcart.admin.controller.php::procSvcartAdminInsertFieldset() 제거
+./queries/insertFieldset.xml 제거
+
+./svcart.admin.controller.php::procSvcartAdminDeleteFieldset() 제거
+./queries/deleteFieldsByFieldsetSrl.xml 제거
+./queries/deleteFieldset.xml 제거
+
+./svcart.admin.controller.php::procSvcartAdminArrangeItem() 제거
+./queries/updateFieldset.xml 제거
+
+./svcart.admin.controller.php::procSvcartAdminUpdateFieldListOrder() 제거
+./queries/updateFieldListOrder.xml 제거
+
+./svcart.admin.model.php::getSvcartAdminFieldInfo() 제거
+./queries/getFieldInfo.xml 제거
+
+./svcart.admin.model.php::getFieldSetList() 제거
+
+v 0.5.5
+5th, Apr 2018
+1. 모호한 변수명 개선
+./svcart.controller.php::createCartObj()에서 아래의 코드를
+$data = json_decode($json_data);
+foreach( $data as $key => $val )
+
+아래와 같이 변경
+$aRequestedItemToCart = json_decode($json_data);
+foreach( $aRequestedItemToCart as $key => $val )
+
+2. 미사용 코드 제거
+./svcart.admin.view.php::dispSvcartAdminConfig()에서 아래의 코드 제거
+// list of skins for member module
+$oModuleModel = &getModel('module');
+$skin_list = $oModuleModel->getSkins($this->module_path);
+Context::set('skin_list', $skin_list);
+
+$mskin_list = $oModuleModel->getSkins($this->module_path, "m.skins");
+Context::set('mskin_list', $mskin_list);
+
+// 레이아웃 목록을 구해옴
+$oLayoutModel = &getModel('layout');
+$layout_list = $oLayoutModel->getLayoutList();
+Context::set('layout_list', $layout_list);
+
+$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
+Context::set('mlayout_list', $mobile_layout_list);
+
+3. 그룹별 장바구니 정책 기능 추가
+./svcart.admin.controller.php::procSvcartAdminConfig()에 아래의 코드 추가
+$oMemberModel = &getModel('member');
+$aMemberGroup = $oMemberModel->getGroups();
+$oGuest->group_srl = 0;
+$aMemberGroup[0] = $oGuest;
+ksort($aMemberGroup);
+$aGroupCartPolicy = array();
+foreach( $aMemberGroup as $key=>$val )
+{
+	if( Context::get('group_qty_'.$val->group_srl) )
+		$aGroupCartPolicy[$val->group_srl] = (int)Context::get('group_qty_'.$val->group_srl);
+}
+$oArgs->group_cart_policy = $aGroupCartPolicy;
+$oArgs->group_policy_toggle = trim( Context::get('group_policy_toggle') );
+
+./tpl/config.html에 아래의 코드 추가
+<section class="section">
+	<h1>
+		{$lang->title_site_group_cart_qty_policy}
+		<a href="#aboutGroupDiscount" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+	</h1>
+	<p id="aboutGroupDiscount" class="x_alert x_alert-info-block" hidden>{$lang->about_site_group_cart_qty_policy}</p>
+	<div class="x_control-group">
+		<label class="x_control-label" for="group_qty_0">{$lang->guest}</label>
+		<div class="x_controls">
+			장바구니 최대 수량을 <input type="text" name="group_qty_0" class="x_span2" id="group_qty_0" value="{$config->group_cart_policy[0]}" />개로 제한
+		</div>
+	</div>
+	<div class="x_control-group" loop="$group_list=>$key,$val">
+		<label class="x_control-label" for="group_qty_{$key}">{$val->title}</label>
+		<div class="x_controls">
+			장바구니 최대 수량을 <input type="text" name="group_qty_{$key}" class="x_span2" id="group_qty_{$key}" value="{$config->group_cart_policy[$key]}" />개로 제한
+		</div>
+	</div>
+</section>
+
+./svcart.controller.php::_validateCartAuthority() 추가
+./svcart.controller.php::createCartObj()에 아래의 코드 추가
+$oRst = $this->_validateCartAuthority();
+$nExistingCartQty = $oRst->nExistingCartQty;
+$nMaxQty = $oRst->nMaxQty;
+if( $nExistingCartQty > $nMaxQty )
+	return new Object(-1, 'msg_exceed_qty_limit');
+
+$nRequstingCartQty = 0;
+
+$nRequstingCartQty += $val->quantity;
+if( $nExistingCartQty + $nRequstingCartQty > $nMaxQty )
+	return new Object(-1, 'msg_exceed_qty_limit');
+
+./svcart.controller.php::procSvcartUpdateQuantity()에서 아래의 코드를
+$args->cart_srl = Context::get('cart_srl');
+$args->quantity = Context::get('quantity');
+$output = executeQuery('svcart.updateCartItem', $args);
+if (!$output->toBool()) return $output;
+
+$this->setMessage('success_changed');
+
+아래와 같이 변경
+$args->cart_srl = (int)Context::get('cart_srl');
+$args->quantity = (int)Context::get('quantity');
+
+$oRst = $this->_validateCartAuthority();
+$nMaxQty = $oRst->nMaxQty;
+$nExistingCartQty = 0;
+foreach( $oRst->aExistingCartQtyInfo as $key=>$val )
+	$nExistingCartQty += $key == $args->cart_srl ? $args->quantity : $val;
+
+if( $nExistingCartQty > $nMaxQty )
+	return new Object(-1, 'msg_exceed_qty_limit');
+
+$output = executeQuery('svcart.updateCartItem', $args);
+if (!$output->toBool()) return $output;
+
+$this->setMessage('success_changed');
+
+v 0.5.6
+29th, Apr 2018
+1. svpg_cancel_log::transaction_srl 을 getNextSequence()에서 auto_increment로 변경
+./schemas/svcart_sequence.xml 추가
+
+./svcart.controller.php::_getCartSrl() 추가
+
+./svorder.controller.php::_addItemsToCart()에서 아래의 코드를
+$cart_srl = getNextSequence();
+아래와 같이 변경
+$cart_srl = $this->_getCartSrl();
+
+v 0.5.7
+23rd, Aug 2018
+1. svshopmaster v 0.1.3의 레이아웃 표시 방법 변경에 대응
+./svcrm.admin.view.php::init()에 아래의 코드 추가
+if(Context::get('module') == 'svshopmaster')
+{
+	$sClassPath = _XE_PATH_ . 'modules/svshopmaster/svshopmaster.class.php';
+	if(file_exists($sClassPath))
+	{
+		require_once($sClassPath);
+		svshopmaster::init($this);
+	}
+}
+
+v 0.5.8
+28th, Oct 2018
+1. 관리자 스킨 오류 수정
+./tpl/cart_management.html에서 아래의 코드를
+<td>{svitemItem::formatMoney($order->price*$order->quantity)}</td>
+아래와 같이 변경
+<td>{number_format($order->price*$order->quantity)}</td>
+
+v 0.5.9
+27th, Feb 2019
+1. 미사용 스킨 제거
+./m.skins/trendshop/ordercomplete.html 제거
+./m.skins/trendshop/orderitems.html 제거
+
+2. svitem.item.php 제거
+./m.skins/trendshop/cartitems.html에서 아래의 코드를
+svitemItem::printPrice 
+아래와 같이 변경
+number_format
+
+./skins/Trendshop/ordercomplete.html 제거
+./skins/Trendshop/orderitems.html 제거
+
+./skins/Trendshop/cartitems.html에서 아래의 코드를
+svitemItem::printPrice 
+아래와 같이 변경
+number_format
+
+./tpl/cart_detail.html에서 아래의 코드를
+svitemItem::formatMoney
+아래와 같이 변경
+number_format
+
+./skins/Trendshop/cartitems.html에서 아래의 코드를
+{$val->getThumbnail($module_info->thumbnail_width,$module_info->thumbnail_height,$module_info->thumbnail_type)}
+{$val->printPrice()}
+
+아래와 같이 변경
+{svitemView::getThumbnailUrl($val->thumb_file_srl, $module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}
+{number_format($val->price)}
+
+./m.skins/trendshop/cartitems.html에서 아래의 코드를
+{$val->getThumbnail($module_info->thumbnail_width,$module_info->thumbnail_height,$module_info->thumbnail_type)}
+
+아래와 같이 변경
+{svitemView::getThumbnailUrl($val->thumb_file_srl, $module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}
+
+3. 메소드 이동
+./svcart.model.php::getCartItem() 제거
+./svcart.admin.model.php::getCartItem() 추가
+
+4. svitem V 3.0.0에 대응
+./svcart.controller.php::createCartObj() 에서 아래의 코드를
+$item_info = $oSvitemModel->getItemInfo($val->item_srl);
+
+아래와 같이 변경
+$item_info = $oSvitemModel->getItemInfoByItemSrl($val->item_srl);
+
+./svcart.controller.php::createCartObj() 에서 아래의 코드를
+$oItemInfo = $oSvitemModel->getItemInfo( $val->item_srl );
+
+아래와 같이 변경
+$oItemInfo = $oSvitemModel->getItemInfoByItemSrl( $val->item_srl );
+
+v 0.5.10
+6th, Mar 2019
+1. 미사용 DB 제거
+./schemas/svcart.sql에서 아래의 코드 제거
+<column name="file_srl" type="number" size="11" />
+
+./queries/insertCartItem.xml에서 아래의 코드 제거
+<column name="file_srl" var="file_srl" />
+
+./svcart.controller.php::createCartObj()에서 아래의 코드 제거
+$args->file_srl = $item_info->file_srl;
+
+./svcart.controller.php::_addItemsToCart()에서 아래의 코드 제거
+$args->file_srl = $in_args->file_srl;
+
+v 0.5.11
+23rd, Mar 2019
+1. 미사용 메소드 제거
+./svcart.model.php::getSvcartAddressInfo() 제거
+./svcart.model.php::getDefaultAddress() 제거
+
+2. npay 주문 방식 추가
+./tpl/_npay_handler_global_to_svitem.html 추가
+./tpl/_npay_handler_button_to_svitem.html 추가
+./tpl/_npay_redirect_to_npay.html 추가
+
+./tpl/_header.html에 아래의 코드 추가
+<li class="x_active"|cond="$act=='dispSvcartAdminNpayConfig'"><a href="{getUrl('','module',$module,'act','dispSvcartAdminNpayConfig')}">{$lang->npay_setting}</a></li>
+
+./svcart.admin.view.php::dispSvcartAdminNpayConfig() 추가
+./svcart.admin.controller.php::procSvcartAdminNpayConfig() 추가
+./svcart.admin.controller.php::_saveModuleConfig() 추가
+./svcart.model.php::getNpayScriptBySvcartMid() 추가
+./svcart.view.php::dispSvcartNpayItems() 추가
+./svcart.npay.php 추가
+./tpl/skin.js/cartitems.js::onClickNaverpayBuy() 추가
+
+./skins/.../cartitems.html에 아래의 코드 추가
+var g_sSvcartMid = '{$mid}';
+{$npay_script_handler_global}
+{$npay_script_handler_button}
+
+./m.skins/.../cartitems.html에 아래의 코드 추가
+var g_sSvcartMid = '{$mid}';
+{$npay_script_handler_global}
+{$npay_script_handler_button}
+
+3. 미사용 메소드 제거
+svcart.model.php::getDeliveryCompanies() 제거
+
+svcart.model.php::getModuleConfig()에서 아래의 코드 제거
+if (!$config->mileage_method) $config->mileage_method = 'svcart';
+
+4. 비효율 코드 개선
+svcart.view.php::dispSvcartCartItems()에서 아래의 코드를
+$cart = $oSvcartModel->getCartInfo(Context::get('cartnos'));
+
+아래와 같이 변경
+$cart = $oSvcartModel->getCartInfo();
+
+v 0.5.12
+12th, Apr 2019
+1. 네이버페이 검수팀 요청에 따라 npay button script에서 테스트와 운영 모드 구분
+svcart.model.php::getNpayScriptBySvcartMid()에 아래의 코드 추가
+if( !$oConfig->npay_mode )
+	Context::set('npay_test_server', 'test-' );
+
+./tpl/_npay_handler_global_to_svitem.html에서 아래의 코드를 
+<script cond="!Mobile::isMobileCheckByAgent()" type="text/javascript" src="//pay.naver.com/customer/js/naverPayButton.js" charset="UTF-8"></script>
+<script cond="Mobile::isMobileCheckByAgent()" type="text/javascript" src="//pay.naver.com/customer/js/mobile/naverPayButton.js" charset="UTF-8"></script>
+
+아래와 같이 변경
+<script cond="!Mobile::isMobileCheckByAgent()" type="text/javascript" src="//{$npay_test_server}pay.naver.com/customer/js/naverPayButton.js" charset="UTF-8"></script>
+<script cond="Mobile::isMobileCheckByAgent()" type="text/javascript" src="//{$npay_test_server}pay.naver.com/customer/js/mobile/naverPayButton.js" charset="UTF-8"></script>
+
+2. 네이버페이 검수팀 요청에 따라 npay 테스트 모드에서 버튼 표시 권한 기능 생성
+./svcart.admin.view.php::dispSvcartAdminGrantInfo() 추가
+./tpl/grantinfo.html 추가
+
+./tpl/_header.html에 아래의 코드 추가
+<li class="x_active"|cond="$act=='dispSvcartAdminGrantInfo'"><a href="{getUrl('act','dispSvcartAdminGrantInfo')}">{$lang->permission_settings}</a></li>
+
+
+svcart.model.php::getNpayScriptBySvcartMid()에서 아래의 코드를
+$oConfig = $this->getModuleConfig();
+if( !$oConfig->npay_mode )
+	Context::set('npay_test_server', 'test-' );
+
+switch( $sCallerModule )
+{
+	case 'svitem':
+		Context::set('npay_btn_cnt', 2 );
+		break;
+	case 'svcart':
+		Context::set('npay_btn_cnt', 1 );
+		break;
+}
+
+Context::set('npay_btn_key', $oConfig->npay_btn_key );
+$oTemplate = &TemplateHandler::getInstance();
+$sPath = _XE_PATH_.'modules/svcart/tpl/';
+$aNpayScript['global'] = $oTemplate->compile($sPath, '_npay_handler_global_to_svitem.html');
+$aNpayScript['btn'] = $oTemplate->compile($sPath, '_npay_handler_button_to_svitem.html');
+
+아래와 같이 변경
+$oLoggedInfo = Context::get('logged_info');
+$oModuleGrant = $oModuleModel->getGrant($oSvcartMidConfig, $oLoggedInfo);
+if( $oModuleGrant->display_npay_btn)
+{
+	$oConfig = $this->getModuleConfig();
+	if( !$oConfig->npay_mode )
+		Context::set('npay_test_server', 'test-' );
+
+	switch( $sCallerModule )
+	{
+		case 'svitem':
+			Context::set('npay_btn_cnt', 2 );
+			break;
+		case 'svcart':
+			Context::set('npay_btn_cnt', 1 );
+			break;
+	}
+
+	Context::set('npay_btn_key', $oConfig->npay_btn_key );
+	$oTemplate = &TemplateHandler::getInstance();
+	$sPath = _XE_PATH_.'modules/svcart/tpl/';
+	$aNpayScript['global'] = $oTemplate->compile($sPath, '_npay_handler_global_to_svitem.html');
+	$aNpayScript['btn'] = $oTemplate->compile($sPath, '_npay_handler_button_to_svitem.html');
+}
+
+3. 네이버페이 버튼이 장바구니 페이지에서는 찜버튼 숨기도록 변경
+./svcart.view.php::dispSvcartCartItems()에서 아래의 코드를
+$aNpayScript = $oSvcartModel->getNpayScriptBySvcartMid($mid );
+
+아래와 같이 변경
+$aNpayScript = $oSvcartModel->getNpayScriptBySvcartMid($mid, 'svcart');
+
+./svcart.model.php::getNpayScriptBySvcartMid()에 아래의 코드 추가
+switch( $sCallerModule )
+{
+	case 'svitem':
+		Context::set('npay_btn_cnt', 2 );
+		break;
+	case 'svcart':
+		Context::set('npay_btn_cnt', 1 );
+		break;
+}
+
+./tpl/_npay_handler_button_to_svitem.html에서 아래의 코드를 
+COUNT: 2, 
+
+아래와 같이 변경
+COUNT: {$npay_btn_cnt}, 
+
+4. 네이버페이 검수팀 요청에 따라 관심상품 기능 활성화
+./schemas/svcart_favorites.xml에서 아래의 코드 제거
+<column name="item_name" type="varchar" size="250" notnull="notnull" />
+<column name="module" type="varchar" size="250" index="idx_module" />
+<column name="module_srl" type="number" size="11" default="0" notnull="notnull" index="idx_module_srl" />
+<column name="document_srl" type="number" size="11" notnull="notnull" />
+<column name="thumb_file_srl" type="number" size="11" />
+<column name="price" type="number" size="11" default="0" notnull="notnull" />
+<column name="discount_amount" type="number" size="11" default="0" notnull="notnull" />
+<column name="discount_info" type="varchar" size="250" />
+<column name="discounted_price" type="number" size="11" default="0" notnull="notnull" />
+
+./queries/insertFavoriteItem.xml에서 아래의 코드 제거
+<column name="item_name" var="item_name" notnull="notnull" />
+<column name="module" var="module" />
+<column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+<column name="document_srl" var="document_srl" filter="number" notnull="notnull" />
+<column name="thumb_file_srl" var="thumb_file_srl" filter="number" />
+<column name="price" var="price" filter="number" />
+<column name="discount_amount" var="discount_amount" filter="number" />
+<column name="discount_info" var="discount_info" />
+<column name="discounted_price" var="discounted_price" />
+
+./queries/getFavoriteItems.xml에서 아래의 코드 제거
+<column name="module_srl" alias="module_srl" />
+<column name="member_srl" alias="member_srl" />
+<column name="item_name" alias="item_name" />
+<column name="thumb_file_srl" alias="thumb_file_srl" />
+<column name="document_srl" alias="document_srl" />
+<column name="price" alias="price" />
+<column name="discount_amount" alias="discount_amount" />
+<column name="discount_info" alias="discount_info" />
+<column name="discounted_price" alias="discounted_price" />
+<column name="1" alias="quantity" />
+
+./skins/.../favoriteitems.html 수정
+./m.skins/.../favoriteitems.html 수정
+
+./svcart.view.php::dispSvcartAddItemsToFavoritesNpay() 추가
+
+./svcart.npay.php 제거
+
+./svcart.controller.php::sendNpayMsgToServer() 추가
+./svcart.controller.php::makeNpayQueryItemBuy() 추가
+./svcart.controller.php::makeNpayQueryItemWish() 추가
+
+5. 미사용 코드 제거
+svcart.model.php::getCartItems()에서 아래의 코드 제거
+$oFileModel = &getModel('file');
+$oModuleModel = &getModel('module');
+
+v 0.5.13
+13th, May 2019
+1. 장바구니 화면에서 수량 변경 시 개별 품목의 conditional_promotion 정보가 변경되지 않는 문제 개선
+./svcart.controller.php::procSvcartUpdateQuantity()에 아래의 코드 추가
+
+$output = executeQuery('svcart.getCartItem', $args);
+if (!$output->toBool()) 
+	return $output;
+
+$oConditionalPromotionInfo = unserialize( $output->data->conditional_promotion );
+if( $oConditionalPromotionInfo )
+{
+	if( $oConditionalPromotionInfo->version == '1.0')
+	{
+		foreach( $oConditionalPromotionInfo->promotion as $nIdx => $oVal )
+		{
+			if( isset( $oVal->resultant_giveaway_qty ) )
+				$oVal->resultant_giveaway_qty = $args->quantity;
+		}
+	}
+	$sConditionalPromotionInfo = serialize( $oConditionalPromotionInfo );
+	$args->conditional_promotion = $sConditionalPromotionInfo;
+}
+
+./queries/updateCartItem.xml에 아래의 코드 추가
+<column name="conditional_promotion" var="conditional_promotion" />
+
+v 1.0.0
+8th, May 2019
+1. 네이버페이 주문 API 연동을 위해 네이버페이 서버에서 반환하는 order_id 저장
+./schemas/svcart_npay_reserved.xml 추가
+
+./svcart.view.php::dispSvcartNpayBuy()에 아래의 코드 추가
+$oArgs->npay_order_srl = $orderId;
+$oArgs->member_srl = $oLoggedInfo->member_srl;
+$oArgs->cartnos = $sCartNos;
+$oArgs->deliv_fee = $nShippingPrice;
+$oArgs->ttl_price = $nTotalPrice;
+$oRst = executeQuery('svcart.insertNpayReserved', $oArgs);
+if (!$oRst->toBool())
+	return $oRst;
+
+v 1.0.1
+1st, Jun 2019
+1. svshopmaster v 1.0.13에 대응
+./svorder.admin.view.php::init()에서 아래의 코드 제거
+if(Context::get('module')=='svshopmaster')
+{
+	$this->setLayoutPath('');
+	$this->setLayoutFile('common_layout');
+}
+
+v 1.0.2
+20th, Jun 2019
+1. 코드 효율성 개선
+./svcart.admin.model.php::getModInstList() 추가
+
+./svcart.admin.view.php::dispSvcartAdminModInstList()에서 아래의 코드를
+$args->sort_index = "module_srl";
+$args->page = Context::get('page');
+$args->list_count = 20;
+$args->page_count = 10;
+$args->s_module_category_srl = Context::get('module_category_srl');
+$output = executeQueryArray('svcart.getModInstList', $args);
+$store_list = $output->data;
+
+아래와 같이 변경
+$oSvcartAdminModel = &getAdminModel('svcart');
+$aSvcartMid = $oSvcartAdminModel->getModInstList();
+$store_list = $aSvcartMid;
+
+./svcart.view.php::dispSvcartCartItems()에서 아래의 코드를
+$mid = Context::get('mid');
+$oModuleModel = getModel('module');
+$oSvcartConfig = $oModuleModel->getModuleInfoByMid($mid);
+$nSvorderModuleSrl = (int)$oSvcartConfig->svorder_module_srl;
+if( !$nSvorderModuleSrl )
+	return new Object(-1, 'please configure svorder in advance!');
+
+$oSvorderConfig = $oModuleModel->getModuleInfoByModuleSrl($nSvorderModuleSrl);
+$sSvorderMid = $oSvorderConfig->mid;
+if( strlen( $sSvorderMid ) == 0 )
+	return new Object(-1, 'please configure svorder in advance!');
+Context::set('svorder_mid',$sSvorderMid);
+
+// get naverpay script - begin
+$oSvcartModel = &getModel('svcart');
+
+$aNpayScript = $oSvcartModel->getNpayScriptBySvcartMid($mid, 'svcart');
+Context::set('npay_script_handler_global', $aNpayScript['global'] );
+Context::set('npay_script_handler_button', $aNpayScript['btn'] );
+// get naverpay script - end
+
+아래와 같이 변경
+$oModuleModel = getModel('module');
+$nSvorderModuleSrl = $this->module_info->svorder_module_srl;
+if( !$nSvorderModuleSrl )
+	return new Object(-1, 'please configure svorder in advance!');
+
+$oSvorderConfig = $oModuleModel->getModuleInfoByModuleSrl($nSvorderModuleSrl);
+$sSvorderMid = $oSvorderConfig->mid;
+if( strlen( $sSvorderMid ) == 0 )
+	return new Object(-1, 'please configure svorder in advance!');
+
+Context::set('svorder_mid',$sSvorderMid);
+
+// get naverpay script - begin
+$oSvcartModel = &getModel('svcart');
+$oRst = $oSvcartModel->getNpayScriptBySvcartMid($this->module_srl, 'svcart');
+if (!$oRst->toBool())
+	return $oRst;
+$aNpayScript = $oRst->get('aNpayScript');
+Context::set('npay_script_handler_global', $aNpayScript['global'] );
+Context::set('npay_script_handler_button', $aNpayScript['btn'] );
+// get naverpay script - end
+
+./svcart.model.php::getNpayScriptBySvcartMid()에서 아래의 코드를
+if( !$sSvcartMid )
+	return new Object(-1, 'msg_invalid_svcart_mid');
+$oModuleModel = &getModel('module');
+$oSvcartMidConfig = $oModuleModel->getModuleInfoByMid($sSvcartMid);
+
+if( $oSvcartMidConfig->npay_toggle )
+{
+	$oLoggedInfo = Context::get('logged_info');
+	$oModuleGrant = $oModuleModel->getGrant($oSvcartMidConfig, $oLoggedInfo);
+	if( $oModuleGrant->display_npay_btn)
+	{
+		Context::set('item_srl', $nItemSrl );
+		Context::set('svcart_mid', $sSvcartMid );
+
+		$oConfig = $this->getModuleConfig();
+		if( !$oConfig->npay_mode )
+			Context::set('npay_test_server', 'test-' );
+
+		switch( $sCallerModule )
+		{
+			case 'svitem':
+				Context::set('npay_btn_cnt', 2 );
+				break;
+			case 'svcart':
+				Context::set('npay_btn_cnt', 1 );
+				break;
+		}
+
+		Context::set('npay_btn_key', $oConfig->npay_btn_key );
+		$oTemplate = &TemplateHandler::getInstance();
+		$sPath = _XE_PATH_.'modules/svcart/tpl/';
+		$aNpayScript['global'] = $oTemplate->compile($sPath, '_npay_handler_global_to_svitem.html');
+		$aNpayScript['btn'] = $oTemplate->compile($sPath, '_npay_handler_button_to_svitem.html');
+	}
+}
+return $aNpayScript;
+
+아래와 같이 변경
+if( !$nSvcartModuleSrl )
+	return new Object(-1, 'msg_invalid_svcart_module_srl');
+$oModuleModel = &getModel('module');
+$oSvcartMidConfig = $oModuleModel->getModuleInfoByModuleSrl($nSvcartModuleSrl);
+
+if( $oSvcartMidConfig->npay_toggle )
+{
+	$oLoggedInfo = Context::get('logged_info');
+	$oModuleGrant = $oModuleModel->getGrant($oSvcartMidConfig, $oLoggedInfo);
+	if( $oModuleGrant->display_npay_btn)
+	{
+		Context::set('item_srl', $nItemSrl );
+		Context::set('svcart_mid', $sSvcartMid );
+
+		$oConfig = $this->getModuleConfig();
+		if( !$oConfig->npay_mode )
+			Context::set('npay_test_server', 'test-' );
+
+		switch( $sCallerModule )
+		{
+			case 'svitem':
+				Context::set('npay_btn_cnt', 2 );
+				break;
+			case 'svcart':
+				Context::set('npay_btn_cnt', 1 );
+				break;
+		}
+
+		Context::set('npay_btn_key', $oConfig->npay_btn_key );
+		$oTemplate = &TemplateHandler::getInstance();
+		$sPath = _XE_PATH_.'modules/svcart/tpl/';
+		$aNpayScript['global'] = $oTemplate->compile($sPath, '_npay_handler_global_to_svitem.html');
+		$aNpayScript['btn'] = $oTemplate->compile($sPath, '_npay_handler_button_to_svitem.html');
+	}
+}
+$oRst = new Object();
+$oRst->add( 'aNpayScript', $aNpayScript );
+return $oRst;
+
+v 1.0.3
+23rd, Jun 2019
+1. 네이버페이 주문 집계 코드 블럭을 위한 사전 작업
+./svcart.model.php::getCartInfo()에 아래의 코드 추가
+$cart_info->item_list[$key]->item_code = $oItemInfo->item_code;
+$cart_info->item_list[$key]->item_name = $oItemInfo->item_name;
+$cart_info->item_list[$key]->document_srl = $oItemInfo->document_srl;
+$cart_info->item_list[$key]->thumb_file_srl = $oItemInfo->thumb_file_srl;
+$cart_info->item_list[$key]->taxfree = $oItemInfo->taxfree;
+
+./svcart.controller.php::createCartObj()에서 아래의 코드 제거
+$args->item_code = $item_info->item_code;
+$args->item_name = $item_info->item_name;
+$args->document_srl = $item_info->document_srl;
+$args->thumb_file_srl = $item_info->thumb_file_srl;
+$args->taxfree = $item_info->taxfree;
+
+./svcart.controller.php::_addItemsToCart()에서 아래의 코드 제거
+$args->item_code = $in_args->item_code;
+$args->item_name = $in_args->item_name;
+$args->document_srl = $in_args->document_srl;
+$args->file_srl = $in_args->file_srl;
+$args->thumb_file_srl = $in_args->thumb_file_srl;
+$args->taxfree = $in_args->taxfree;
+
+./svcart.admin.view.php::dispSvcartAdminCartManagement()에 아래의 코드 추가
+$oSvitemAdminModel = &getAdminModel('svitem');
+$aDisplayingItems = $oSvitemAdminModel->getAllDisplayingItemList();
+$aItemInfoByItemSrl = array();
+foreach( $aDisplayingItems as $nIdx => $oItemVal )
+	$aItemInfoByItemSrl[$oItemVal->item_srl]->item_name = $oItemVal->item_name;
+
+$val->item_name = $aItemInfoByItemSrl[$val->item_srl]->item_name;
+
+./queries/insertCartItem.xml에서 아래의 코드 제거
+<column name="item_name" var="item_name" notnull="notnull" />
+<column name="item_code" var="item_code" notnull="notnull" />
+<column name="document_srl" var="document_srl" notnull="notnull" />
+<column name="thumb_file_srl" var="thumb_file_srl" />
+<column name="taxfree" var="taxfree" notnull="notnull" />
+
+./queries/getCartList.xml에서 아래의 코드를
+<column name="cart_srl" />
+<column name="member_srl" />
+<column name="item_name" />
+<column name="quantity" />
+<column name="price" />
+<column name="regdate" />
+
+아래와 같이 변경
+<column name="cart_srl" />
+<column name="item_srl" />
+<column name="member_srl" />
+<column name="quantity" />
+<column name="price" />
+<column name="regdate" />
+
+./schemas/svcart.xml에서 아래의 코드 제거
+<column name="item_code" type="varchar" size="250" notnull="notnull" />
+<column name="item_name" type="varchar" size="250" notnull="notnull" />
+<column name="document_srl" type="number" size="11" notnull="notnull" />
+<column name="thumb_file_srl" type="number" size="11" />
+<column name="taxfree" type="char" size="1" default="N" notnull="notnull" />
+
+v 1.0.4
+30th, Jun 2019
+1. 네이버페이 주문 집계 코드 대응
+./svcart.controller.php::_getCartSrl()를 getCartSrl()로 변경
+
+./svcart.controller.php::_addItemsToCart()에서 아래의 코드를
+$cart_srl = $this->_getCartSrl();
+아래와 같이 변경
+$cart_srl = $this->getCartSrl();
+
+v 1.0.5
+16th, Jul 2019
+1. 네이버페이 주문서 전송 코드 개선
+./svcart.view.php::dispSvcartNpayBuy()에서 아래의 코드를
+$oArg->uprice = $oVal->discounted_price;
+$oArg->count = $oVal->quantity;
+$oArg->tprice = $oVal->discounted_price * $oVal->quantity;
+$oArg->option = '';
+$nTotalMoney += $oArg->tprice;
+
+아래와 같이 변경
+$oArg->uprice = $oVal->price;
+$oArg->count = $oVal->quantity;
+$oArg->tprice = $oVal->discounted_price;
+$nRealPrice = $oVal->discounted_price * $oVal->quantity;
+$oArg->option = '';
+$nTotalMoney += $nRealPrice;
+
+./svcart.npay_item.php::makeQueryStringBuy()에서 아래의 코드를
+$ret .= '&ITEM_TPRICE=' . $this->uprice * $this->count;
+
+아래와 같이 변경
+$ret .= '&ITEM_TPRICE=' . $this->tprice * $this->count;
+
+v 1.0.6
+3rd, Aug 2019
+1. 코드 유지보수성 개선
+./svcart.view.php::dispSvcartAdminCartManagement()에서 아래의 코드를
+$args->order_status = 1;
+
+아래와 같이 변경
+$oSvorderModel = &getClass('svorder');
+$args->order_status = svorder::ORDER_STATE_ON_DEPOSIT;
+
+./svcart.controller.php::confirmCart()에서 아래의 코드를
+switch ($obj->state) 
+{
+	case '1': // not completed
+	case '3': // failure
+		$args->order_status = 1;
+		break;
+	case '2': // completed
+		$args->order_status = 2;
+		break;
+}
+
+아래와 같이 변경
+$oSvorderModel = &getClass('svorder');
+switch ($obj->state) 
+{
+	case '1': // not completed
+	case '3': // failure
+		$args->order_status = svorder::ORDER_STATE_ON_DEPOSIT;
+		break;
+	case '2': // completed
+		$args->order_status = svorder::ORDER_STATE_PAID;
+		break;
+}
+
+v 1.0.7
+7th, Oct 2019
+1. 아래의 네이버페이 검수팀 요청 반영
+- 상품상세  페이지 > 네이버페이 구매 > 주문상품수정 > 상품상세 페이지로 이동 되어야 합니다. 
+- 장바구니  페이지 > 네이버페이 구매 > 주문상품수정 > 장바구니 페이지로 이동 되어야 합니다.
+./svcart.view.php::dispSvcartNpayBuy()에서 아래의 코드를
+$sBackUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://'.$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI];
+$sBackUrl = urlencode( str_replace('dispSvcartNpayBuy','dispSvcartCartItems', $sBackUrl) );
+
+아래와 같이 변경
+$nSvshopMid = Context::get('shop_mid'); // shop_mid이 입력되면 개별 상세피이지에서 npay 버튼 클릭했다는 의미
+$nItemSrl = Context::get('item_srl'); // item_srl이 입력되면 개별 상세피이지에서 npay 버튼 클릭했다는 의미
+// 그러면 뒤로 가기 URL을 개별 상세페이지로 설정해야 함.
+if( $nSvshopMid && $nItemSrl )
+	$sBackUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://'.$_SERVER[HTTP_HOST].'/'.$nSvshopMid.'/'.$nItemSrl;
+else
+{
+	$sBackUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://'.$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI];
+	$sBackUrl = urlencode( str_replace('dispSvcartNpayBuy','dispSvcartCartItems', $sBackUrl) );
+}
+
+v 1.0.8
+11th, Oct 2019
+1. 비회원이 네이버페이 주문 가능하도록 변경
+./queries/insertNpayReserved.xml에서 아래의 코드를
+<column name="member_srl" var="member_srl" notnull="notnull" />
+
+아래와 같이 변경
+<column name="member_srl" var="member_srl" />
+
+./schemas/svcart_npay_reserved.xml에서 아래의 코드를
+<column name="member_srl" type="number" size="11" default="0" notnull="notnull" index="idx_member_srl" />
+
+아래와 같이 변경
+<column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
+
+v 1.0.9
+21st, Oct 2019
+1. 관리자 용어 변경
+./lang/lang.xml에서 아래의 코드를
+<item name="contract_number">
+	<value xml:lang="ko"><![CDATA[체결번호]]></value>
+</item>
+
+아래와 같이 변경
+<item name="cart_number">
+	<value xml:lang="ko"><![CDATA[장바구니번호]]></value>
+</item>
+
+v 1.0.10
+26th, Oct 2019
+1. 품절인 상품에는 네이버페이 버튼 비활성화
+./svcart.model.php::getNpayScriptBySvcartMid()에 아래의 코드 추가
+if( $nItemSrl )
+	$bBtnEnable = $nAvailableStock ? 'Y' : 'N';
+else
+	$bBtnEnable = 'Y';
+Context::set('npay_btn_enable', $bBtnEnable );
+
+./tpl/_npay_handler_global_to_svitem.html에서 아래의 코드를
+ENABLE: "Y",
+
+아래와 같이 변경
+ENABLE: "{$npay_btn_enable}",
+
+v 1.0.11
+12th, Nov 2019
+1. svpromotion v0.4.32에 대응
+./svcart.model.php::discountItems()에서 아래의 코드를
+public function discountItems(&$item_list, $group_list=array(), $width=50, $height=50)
+{
+	$oSvpromotionModel = &getModel('svpromotion');
+	return $oSvpromotionModel->getItemPriceCart($item_list, $group_list, $width, $height);
+}
+
+아래와 같이 변경
+public function discountItems(&$item_list)
+{
+	$oSvpromotionModel = &getModel('svpromotion');
+	return $oSvpromotionModel->getItemPriceCart($item_list );
+}
+
+./svcart.model.php::getGuestCartInfo()에서 아래의 코드를
+// non group list
+$group_list = array();
+
+// default values
+if (!$width) $width = 80;
+if (!$height) $height = 80;
+
+// cart items
+$args->non_key = $non_key;
+$args->cartnos = $cartnos;
+$output= executeQueryArray('svcart.getNonCartItems', $args);
+if (!$output->toBool())
+	return $output;
+
+$item_list = $output->data;
+if (!is_array($item_list)) $item_list = array();
+return $this->discountItems($item_list, $group_list, $width, $height);
+
+아래와 같이 변경
+$oArgs->non_key = $non_key;
+$oArgs->cartnos = $cartnos;
+$oRst= executeQueryArray('svcart.getNonCartItems', $oArgs);
+if (!$oRst->toBool())
+	return $oRst;
+
+$aItemList = $oRst->data;
+return $this->discountItems($aItemList);
+
+./svcart.model.php::getMemberCartInfo()에서 아래의 코드를
+$oMemberModel = &getModel('member');
+// get group list
+$group_list = $oMemberModel->getMemberGroups($member_srl);
+
+// default values
+if (!$width) $width = 80;
+if (!$height) $height = 80;
+
+// cart items
+$args->cartnos = $cartnos;
+$args->member_srl = $member_srl;
+$output = executeQueryArray('svcart.getCartItems', $args);
+if (!$output->toBool())
+	return $output;
+
+$item_list = $output->data;
+if (!is_array($item_list))
+	$item_list = array();
+
+return $this->discountItems($item_list, $group_list, $width, $height);
+
+아래와 같이 변경
+$oArgs->cartnos = $cartnos;
+$oArgs->member_srl = $member_srl;
+$oRst = executeQueryArray('svcart.getCartItems', $oArgs);
+if (!$oRst->toBool())
+	return $oRst;
+
+$aItemList = $oRst->data;
+return $this->discountItems($aItemList);
+
+2.
+미사용 메소드 제거
+./svcart.model.php::getCartItems() 제거
+
+v 1.0.12
+18th, Dec 2019
+1. svpg v0.4.2에 대응
+./svcart.controller.php::reviewCart() 제거
+./svcart.controller.php::_updateCartItems() 제거
+./svcart.controller.php::confirmCart() 제거
+./queries/updateCartOrderStatus.xml 제거
+
+./svcart.controller.php::setEstiOrderSrl() 추가
+./svcart.controller.php::deactivateCart() 추가
+./queries/updateCartOrderSrlStatus.xml 추가
+
+v 1.0.13
+24th, Dec 2019
+1. svorder v3.0.0에 대응
+./svcart.view.php::dispSvcartNpayBuy()에서 아래의 코드를
+$sCartNos = Context::get('cartnos');
+$oParam->sCartnos = $sCartNos;
+
+아래와 같이 변경
+$sCartNos = Context::get('cartnos');
+$oSvcartModel = &getModel('svcart');
+$oParam->oCart = $oSvcartModel->getCartInfo( $sCartNos );
+
+2. 미사용 코드 제거
+./svcart.controller.php::createCartObj()에서 아래의 코드 제거
+$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+
+if( $logged_info )
+	$args->member_srl = $logged_info->member_srl;
+else
+	$args->member_srl = 0;
+
+./skins/Trendshop/cartitems.html에서 아래의 코드 제거
+{@$item_sum = $val->price * $val->quantity}
+
+./m.skins/trendshop/cartitems.html에서 아래의 코드 제거
+{@$item_sum = $val->price * $val->quantity}
+
+3. 비효율 코드 제거
+./schemas/svcart.xml에서 아래의 코드 제거
+<column name="purdate" type="date" notnull="notnull" index="idx_purdate" />
+<column name="price" type="number" size="11" default="0" notnull="notnull" />
+
+./queries/insertCartItem.xml에서 아래의 코드 제거
+<column name="purdate" var="purdate" default="curdate()" />
+<column name="price" var="price" notnull="notnull" />
+
+./queries/updateCartOrderSrlStatus.xml에서 아래의 코드 제거
+<column name="purdate" default="curdate()" />
+
+4. 상품 가격을 svcart_cart에 기록하지 않고 svitem에서 계속 불러오도록 수정
+./svcart.model.php::getCartInfo()에서 아래의 코드 제거
+$oSvitemModel = &getModel('svitem');
+foreach( $oCartInfo->item_list as $nIdx=>$oCartVal )
+{
+	$oItemInfo = $oSvitemModel->getItemInfoByItemSrl( $oCartVal->item_srl );
+	$oCartInfo->item_list[$nIdx]->enhanced_item_info = $oItemInfo->enhanced_item_info;
+	$oCartInfo->item_list[$nIdx]->item_code = $oItemInfo->item_code;
+	$oCartInfo->item_list[$nIdx]->item_name = $oItemInfo->item_name;
+	$oCartInfo->item_list[$nIdx]->document_srl = $oItemInfo->document_srl;
+	$oCartInfo->item_list[$nIdx]->thumb_file_srl = $oItemInfo->thumb_file_srl;
+	$oCartInfo->item_list[$nIdx]->taxfree = $oItemInfo->taxfree;
+}
+
+./svcart.model.php::discountItems()에 아래의 코드 추가
+$oSvitemModel = &getModel('svitem');
+foreach( $aItemList as $nIdx=>$oCartVal )
+{
+	$oItemInfo = $oSvitemModel->getItemInfoByItemSrl( $oCartVal->item_srl );
+	$oCartVal->enhanced_item_info = $oItemInfo->enhanced_item_info;
+	$oCartVal->item_code = $oItemInfo->item_code;
+	$oCartVal->item_name = $oItemInfo->item_name;
+	$oCartVal->price = $oItemInfo->price;
+	$oCartVal->document_srl = $oItemInfo->document_srl;
+	$oCartVal->thumb_file_srl = $oItemInfo->thumb_file_srl;
+	$oCartVal->taxfree = $oItemInfo->taxfree;
+}
+
+./skins/Trendshop/cartitems.html에서 아래의 코드를 
+<script type="text/javascript">
+gatkCart.queueItemInfo( '{$val->cart_srl}', '{$val->item_srl}', '{$val->item_name}', '{$val->enhanced_item_info->ga_category_name}', '{$val->enhanced_item_info->ga_brand_name}', '{$val->enhanced_item_info->ga_variation_name}', '{$val->price}', '{$val->quantity}', '' );
+</script>
+<td>{number_format($val->price)}</td>
+
+아래와 같이 변경
+<script type="text/javascript">
+gatkCart.queueItemInfo( '{$val->cart_srl}', '{$val->item_srl}', '{$val->item_name}', '{$val->enhanced_item_info->ga_category_name}', '{$val->enhanced_item_info->ga_brand_name}', '{$val->enhanced_item_info->ga_variation_name}', '{$val->item_price}', '{$val->quantity}', '' );
+</script>
+<td>{number_format($val->item_price)}</td>
+
+./m.skins/trendshop/cartitems.html에서 아래의 코드를 
+<script type="text/javascript">
+gatkCart.queueItemInfo( '{$val->cart_srl}', '{$val->item_srl}', '{$val->item_name}', '{$val->enhanced_item_info->ga_category_name}', '{$val->enhanced_item_info->ga_brand_name}', '{$val->enhanced_item_info->ga_variation_name}', '{$val->price}', '{$val->quantity}', '' );
+</script>
+<span class="price1">{number_format($val->price)}</span>
+
+아래와 같이 변경
+<script type="text/javascript">
+gatkCart.queueItemInfo( '{$val->cart_srl}', '{$val->item_srl}', '{$val->item_name}', '{$val->enhanced_item_info->ga_category_name}', '{$val->enhanced_item_info->ga_brand_name}', '{$val->enhanced_item_info->ga_variation_name}', '{$val->item_price}', '{$val->quantity}', '' );
+</script>
+<span class="price1">{number_format($val->item_price)}</span>
+
+./tpl/skin.js/cartitems.js에 progressOrderIndividual() 추가
+./tpl/skin.js/script.js에 progressOrderIndividual() 제거
+
+./schemas/svcart.xml에서 아래의 코드 제거
+<column name="discount_amount" type="number" size="11" default="0" notnull="notnull" />
+<column name="discount_info" type="text"/>
+<column name="discounted_price" type="number" size="11" default="0" notnull="notnull" />
+
+./queries/getCartList.xml에서 아래의 코드 제거
+<column name="price" />
+<column name="discount_amount" type="number" size="11" default="0" notnull="notnull" />
+<column name="discount_info" type="text"/>
+<column name="discounted_price" type="number" size="11" default="0" notnull="notnull" />
+
+./queries/insertCartItem.xml에서 아래의 코드 제거
+<column name="discount_amount" var="discount_amount" />
+<column name="discount_info" var="discount_info" />
+<column name="discounted_price" var="discounted_price" />
+<column name="express_id" var="express_id" />
+
+./svcart.controller.php::createCartObj()에서 아래의 코드 제거
+$args->discount_amount = $oPromotionInfo->discount_amount;
+$args->discount_info = $oPromotionInfo->discount_info;;
+$args->discounted_price = $oPromotionInfo->discounted_price;
+
+5. OOP 개선
+./svcart.model.php::discountItems()을 _discountItems()으로 변경
+
+./svcart.admin.view.php::dispSvcartAdminCartManagement()에서 아래의 코드를
+$oSvorderModel = &getClass('svorder');
+
+아래와 같이 변경
+if( !defined('svorder::ORDER_STATE_ON_DEPOSIT') )
+	getClass('svorder');
+
+./svcart.controller.php::deactivateCart()에서 아래의 코드를
+$oSvorderModel = &getClass('svorder');
+
+아래와 같이 변경
+if( !defined('svorder::ORDER_STATE_ON_DEPOSIT') )
+	getClass('svorder');
+
+6. 장바구니 유효 기간 설정 기능 추가
+./tpl/config.html에 아래의 코드 추가
+<section class="section">
+	<h1>
+		{$lang->title_cart_expiration_policy}
+		<a href="#aboutCartExpirationPolicy" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+	</h1>
+	<p id="aboutCartExpirationPolicy" class="x_alert x_alert-info-block" hidden>{$lang->about_cart_expiration_policy}</p>
+	<div class="x_control-group">
+		<label class="x_control-label" for="cart_expiration_days">{$lang->cart_expiration_days}</label>
+		<div class="x_controls">
+			<input type="text" name="cart_expiration_days" class="x_span1" id="cart_expiration_days" value="{$config->cart_expiration_days}" />일로 제한
+		</div>
+	</div>
+</section>
+
+./svcart.admin.controller.php::procSvcartAdminConfig()에 아래의 코드 추가
+$nCartExpirationDays = Context::get('cart_expiration_days');
+if( isset( $nCartExpirationDays ) )
+	$oArgs->cart_expiration_days = $nCartExpirationDays;
+
+./svcart.model.php::getCartInfo()에 아래의 코드 추가
+$oConfig = $this->getModuleConfig();
+$nExpirationDays = $oConfig->cart_expiration_days;
+$sOldestDatetime = null;
+if( isset( $nExpirationDays ) )
+	$sOldestDatetime = date('Ymdhis', strtotime('-'.$nExpirationDays.' days'));
+
+./svcart.model.php::getGuestCartInfo()에 아래의 코드 추가
+if( $sOldestDatetime)
+	$oArgs->startdate = $sOldestDatetime;
+
+./svcart.model.php::getMemberCartInfo()에 아래의 코드 추가
+if( $sOldestDatetime)
+	$oArgs->startdate = $sOldestDatetime;
+
+./queries/getNonCartItems.xml에 아래의 코드 추가
+<condition operation="more" column="regdate" var="startdate" pipe="and" />
+
+./queries/getCartItems.xml에 아래의 코드 추가
+<condition operation="more" column="regdate" var="startdate" pipe="and" />
+
+v 1.0.14
+23rd, Jan 2020
+1. 미사용 코드 제거
+./svcart.model.php::getModuleConfig()에서 아래 코드 제거
+if (!$config->order_thumbnail_width) $config->order_thumbnail_width = 100;
+if (!$config->order_thumbnail_height) $config->order_thumbnail_height = 100;
+if (!$config->address_input) $config->address_input = 'krzip';
+if (!$config->mileage_method) $config->mileage_method = 'svcart';
+
+./svcart.model.php::init()에서 아래 코드 제거
+if (!$this->module_info->thumbnail_width) $this->module_info->thumbnail_width = 150;
+if (!$this->module_info->thumbnail_height) $this->module_info->thumbnail_height = 150;
+
+2. 장바구니 화면에서 [주문하기] 클릭한 시점과 주문서 화면에서 [결제하기] 클릭한 시점의 시차 관리
+./schemas/svcart.xml에 아래의 코드 추가
+<column name="offer_date" type="date" notnull="notnull" />
+
+./svcart.controller.php::markOfferDate() 추가
+
+./queries/updateCartOfferDate.xml 추가
+
+v 1.0.15
+7th, Mar 2020
+1. npay 서버로 redirect 시 utm session 저장 기능 추가
+./schemas/svcart.xml에 아래의 코드 추가
+<column name="utm_source" type="varchar" size="30" />
+<column name="utm_medium" type="varchar" size="15" />
+<column name="utm_campaign" type="varchar" size="90" />
+<column name="utm_term" type="varchar" size="25" />
+<column name="http_user_agent" type="varchar" size="200" notnull="notnull" />
+<column name="is_mobile_access" type="char" size="1" default="0" notnull="notnull" />
+
+./svcart.view.php::dispSvcartNpayBuy()에 아래의 코드 추가
+$oArgs->is_mobile_access = $_COOKIE['mobile'] == 'false' ? 'N' : 'Y';
+$oArgs->http_user_agent = trim( $_SERVER['HTTP_USER_AGENT'] );
+// utm_params information
+if( isset( $_SESSION['HTTP_INIT_SOURCE'] ) && strlen( $_SESSION['HTTP_INIT_SOURCE'] ) > 0 )
+	$oArgs->utm_source = $_SESSION['HTTP_INIT_SOURCE'];
+if( isset( $_SESSION['HTTP_INIT_MEDIUM'] ) && strlen( $_SESSION['HTTP_INIT_MEDIUM'] ) > 0 )
+	$oArgs->utm_medium = $_SESSION['HTTP_INIT_MEDIUM'];
+if( isset( $_SESSION['HTTP_INIT_CAMPAIGN'] ) && strlen( $_SESSION['HTTP_INIT_CAMPAIGN'] ) > 0 )
+	$oArgs->utm_campaign = $_SESSION['HTTP_INIT_CAMPAIGN'];
+if( isset( $_SESSION['HTTP_INIT_KEYWORD'] ) && strlen( $_SESSION['HTTP_INIT_KEYWORD'] ) > 0 )
+	$oArgs->utm_term = $_SESSION['HTTP_INIT_KEYWORD'];
+
+./queries/insertNpayReserved.xml에 아래의 코드 추가
+<column name="is_mobile_access" var="is_mobile_access" />
+<column name="http_user_agent" var="http_user_agent" />
+<column name="utm_source" var="utm_source" />
+<column name="utm_medium" var="utm_medium" />
+<column name="utm_campaign" var="utm_campaign" />
+<column name="utm_term" var="utm_term" />
+
+v 1.0.16
+8th, Mar 2020
+1. npay 주문하기 전환 시 ga('send', 'event', ) snpippet 실행
+./tpl/_npay_redirect_to_buy.html에 아래의 코드 추가
+function _enforceInt( nEventValue )
+{
+	nEventValue = nEventValue.toString().replace( /$|,/g,'' );
+	if( isNaN( nEventValue ) )
+		return 0;
+	else
+		return nEventValue;
+}
+nEventValue = _enforceInt( '{$nTotalPrice}' );
+ga('send', 'event', {
+	'eventCategory': 'button',   // Required.
+	'eventAction': 'clicked',      // Required.
+	'eventLabel': 'npb_',
+	'eventValue': nEventValue, // use number only, null string '' commits error.
+	'nonInteraction': 1 // true indicates that the event hit will not be used in bounce-rate calculation.
+});
+
+./tpl/_npay_redirect_to_favorite.html에 아래의 코드 추가
+function _enforceInt( nEventValue )
+{
+	nEventValue = nEventValue.toString().replace( /$|,/g,'' );
+	if( isNaN( nEventValue ) )
+		return 0;
+	else
+		return nEventValue;
+}
+nEventValue = _enforceInt( '{$nTotalPrice}' );
+ga('send', 'event', {
+	'eventCategory': 'button',   // Required.
+	'eventAction': 'clicked',      // Required.
+	'eventLabel': 'npf_',
+	'eventValue': nEventValue, // use number only, null string '' commits error.
+	'nonInteraction': 1 // true indicates that the event hit will not be used in bounce-rate calculation.
+});
+
+v 1.0.17
+15th, Aug 2020
+1. svitem v4.0.0에 대응
+./svcart.controller.php::createCartObj()에서 아래 코드를
+$item_info = $oSvitemModel->getItemInfoByItemSrl($val->item_srl);
+
+아래와 같이 변경
+$oItemParam->nItemSrl = $oCartedItemInfo->item_srl;
+$oItemInfo = $oSvitemModel->getItemInfoNewFull($oItemParam);
+
+./svcart.controller.php::createCartObj()에서 아래 코드를
+$stock = $oSvitemModel->getItemStock($oItemInfo->item_srl);
+
+아래와 같이 변경
+$stock = $oItemInfo->current_stock;
+
+./svcart.controller.php::createCartObj()에서 아래 코드를
+$oItemPromo->quantity = $oCartedItemInfo->quantity;
+
+아래와 같이 변경
+$oItemPromo->module_srl = $oItemInfo->module_srl;
+$oItemPromo->item_srl = $oItemInfo->item_srl;
+$oItemPromo->quantity = $oCartedItemInfo->quantity;
+$oItemPromo->price = $oItemInfo->price;
+
+./svcart.controller.php::createCartObj()에서 아래 코드를
+$aOption = $oSvitemModel->getOptions($oCartedItemInfo->item_srl);
+
+아래와 같이 변경
+$aOption = $oItemInfo->aBuyingOption;
+
+v 1.1.0
+20th, Dec 2020
+1. php v7.4.13에 대응
+모든 new Object()를 new BaseObject()로 변경
+
+v 1.1.1
+20th, Feb 2021
+1. php7에서 mysql_connect() 함수 폐기에 대응
+./svcart.controller.php::getCartSrl()에서 아래 코드를
+$oDB_class = new DBMysql;
+
+아래와 같이 변경
+$oDB_class = new DBMysqli;
+
+2. 미사용 코드 제거
+./tpl/insertmodinst.html에서 아래의 코드 제거
+<div class="x_control-group">
+	<label class="x_control-label" for="">{$lang->address_selection}</label>
+	<div class="x_controls">
+		<select name="display_delivdest">
+			<option value="N" selected="selected"|cond="$module_info->display_delivdest == 'N'">{$lang->notuse}</option>
+			<option value="Y" selected="selected"|cond="$module_info->display_delivdest == 'Y'">{$lang->use}</option>
+		</select>
+		<a href="#display_delivdest_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+		<p id="display_delivdest_help" class="x_help-block" hidden>{$lang->about_address_selection}</p>
+	</div>
+</div>
+
+v 1.1.2
+28th, Jul 2021
+1. 1. GAv4용 gaectk.js 대응
+./skins/에서 아래의 코드를
+gatkCart
+
+아래와 같이 변경
+gaectkCart
+
+./tpl/skin.js/cartitem.js에서 아래의 코드를
+gatkCart
+
+아래와 같이 변경
+gaectkCart
+
+./tpl/skin.js/cartitem.js::progressOrderIndividual()에 아래의 코드 추가
+gaectkCart.checkoutSelected(cartno);
+
+v 1.1.3
+4th, Sep 2021
+1. gaectk.js v1.2.2 대응
+./tpl/skin.js/cartitem.js::deleteCartItem()에서 아래의 코드를
+gaectkCart.removeFromCart( cart_srls );
+
+아래와 같이 변경
+gaectkCart.removeSelected( cart_srls );
+
+
+------------------------ todo --------------------------
+주문서에 실렸지만 결제완료되지 않은 장바구니에 대해 PG 결제 재청구 금지 기능
+
+마일리지 관련 코드 완전히 제거
+
+./schemas/svcart.xml에서 tbl:svitem_item과 중복 필드 제거하고 item 정보는 svitem에서 가져오기
+
+장바구니 담은 후 장바구니로 이동하시겠습니까? 질문 설정을 svitem으로 이동
+
+svcart.view.php::init()에서 login 상태 점검하지만 서브 메소드에서 중복해서 검사하는 상황 개선
+
+svcart.model.php::getCartInfo()에서 GA EEC params를 불러오는 과정이 svpromotion과 엮이면서 svitem.item.php를 여러번 호출하며 중복연산하여 매우 비효율적임
+장바구니 진입 시 GA EEC params를 svcart 테이블에 적재해야 함
